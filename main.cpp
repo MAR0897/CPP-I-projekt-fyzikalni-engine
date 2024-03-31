@@ -1,5 +1,7 @@
 #include "header.h"
 
+Shapes sh;
+
 int main() {
 
 //Initialize GLFW window, error and stuff
@@ -9,7 +11,7 @@ int main() {
     //set error callback
     glfwSetErrorCallback(errorCallback);
     //create window (dont worry, will be deleted at the end of main function)
-    GLFWwindow* window = glfwCreateWindow(1000, 500, "Super stacker 3", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(1280, 720, "Super stacker 3", NULL, NULL);
     if (!window) { std::cerr << "Failed to create GLFW window" << std::endl; glfwTerminate(); return -1; }
     //create GLFW context
     glfwMakeContextCurrent(window);
@@ -17,18 +19,24 @@ int main() {
     glfwSwapInterval(1);
 
 
-    
 
-    glfwSetMouseButtonCallback(window, mouseButtonCallback);
+    glfwSetMouseButtonCallback(window, mouse_button_callback);
+    glfwSetScrollCallback(window, scroll_callback);
     glfwSetKeyCallback(window, key_callback);
+
+
+    
 
     
 //------------------------------------------------------------------------------------------------------------------------
 //Main loop
     while (!glfwWindowShouldClose(window)) {
         
+        //clear screen
+        glClear(GL_COLOR_BUFFER_BIT);
 
-        draw_all_shapes();
+        //draw all shapes
+        sh.draw_all_shapes();
 
         //swap front and back buffers - when the back one renders with the code above, this function will smoothly swap then.
         glfwSwapBuffers(window);

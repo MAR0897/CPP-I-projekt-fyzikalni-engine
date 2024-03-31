@@ -12,6 +12,7 @@
 #include <string_view>
 #include <variant>
 
+struct Vec;
 
 
 //GLFW functions================================================================================================================
@@ -22,7 +23,11 @@ void errorCallback(int error, const char* description);
 //================================================================================================================
 //Keys pressing
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
-void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+
+//convert coords from pixels to screen proportion (-1.0 to 1.0 on both x and y) (nevim jak se to jmenuje lol)
+Vec get_mouse_coords(GLFWwindow* window);
 
 
 //Custom 2D vector================================================================================================================
@@ -59,21 +64,16 @@ struct Vec{
     friend Vec operator-(const Vec& v1, const double& n);
     friend Vec operator*(const Vec& v1, const double& n);
     friend Vec operator/(const Vec& v1, const double& n);
+    double norm();
 
 };
 
 
 //Objects================================================================================================================
 
-struct Point{
+template<class... Ts> struct overloaded : Ts... { using Ts::operator()...; };
+template<class... Ts> overloaded(Ts...) -> overloaded<Ts...>;
 
-    double mass;
-    Vec pos;
-    Vec vel;
-
-    Point(const Vec& position, const Vec& velocity = Vec(0,0), const double& m = 1.0);
-    Point(Vec&& position, Vec&& velocity = Vec(0,0), double&& m = 1.0);
-};
 
 struct Rectangle{
 
@@ -84,6 +84,16 @@ struct Rectangle{
 
     Rectangle(const Vec& position, const Vec& s, const Vec& velocity = Vec(0,0), const double& m = 1.0);
     Rectangle(Vec&& position, Vec&& s, Vec&& velocity = Vec(0,0), double&& m = 1.0);
+};
+
+struct Triangle{
+
+    double mass;
+    Vec A, B, C;
+    Vec vel; 
+
+    Triangle(const Vec& a, const Vec& b, const Vec& c, const Vec& velocity = Vec(0,0), const double& m = 1.0);
+    Triangle(Vec&& a, Vec&& b, Vec&& c, Vec&& velocity = Vec(0,0), double&& m = 1.0);
 };
 
 struct Circle{
@@ -97,15 +107,31 @@ struct Circle{
     Circle(Vec&& position, double&& radius, Vec&& velocity = Vec(0,0), double&& m = 1.0);
 };
 
-using Shape = std::variant<Point, Rectangle, Circle>;
+using Shape = std::variant<Rectangle, Triangle, Circle>;
 
-extern std::vector<Shape> shapes;
 
-template<class... Ts> struct overloaded : Ts... { using Ts::operator()...; };
-template<class... Ts> overloaded(Ts...) -> overloaded<Ts...>;
+struct Shapes{
 
-//drawing a single shape using std::visit
-void draw(const Shape& shape);
+    std::vector<Shape> shapes;
 
-//drawing all the shapes in the "shapes" vector
-void draw_all_shapes();
+    Shapes() = default;
+    Shapes(const std::vector<Shape>& sh);
+    Shapes(std::vector<Shape>&& sh);
+    void add_shape(const Shape& sh);
+    void add_shape(Shape&& sh);
+    void delete_shape(const Vec& mousepos);
+    //checks if given coordinates are inside the shape
+    bool is_inside(const Vec& mousepos, const Shape& shape);
+    //drawing a single shape using std::visit
+    void draw(const Shape& shape);
+    //drawing all the shapes in the "shapes" vector
+    void draw_all_shapes();
+    
+    void resize_shape(Shape& sh, const double& offset);
+};
+
+//representing all the shapes on the screen
+extern Shapes sh;
+
+
+
