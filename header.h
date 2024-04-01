@@ -14,10 +14,26 @@
 
 struct Vec;
 
+const double PI = 3.1415926535;
+//Window sizes
+const int WIDTH = 1280;
+const int HEIGHT = 720;
 
-//GLFW functions================================================================================================================
+//screen transform constant, multiply y axis with this to get symetrical things
+/*  IMPORTANT: the whole program works with scaled coordinates (due to window width not necessarily being the same as window height),
+    only on the input (mouse coords) and output (the shapes you can see) the coordinates are scaled "normal vision"
+    (kdo to sakra vymyslel (ale treba je to vlastne dobre, nevim))
+*/
+const double ST = static_cast<double>(WIDTH)/static_cast<double>(HEIGHT); 
+
+//Ground position
+const float GROUND = -0.7f; 
+
+//GLFW functions and window management================================================================================================================
 //GLFW error callback
 void errorCallback(int error, const char* description);
+
+void draw_background();
 
 
 //================================================================================================================
@@ -64,7 +80,12 @@ struct Vec{
     friend Vec operator-(const Vec& v1, const double& n);
     friend Vec operator*(const Vec& v1, const double& n);
     friend Vec operator/(const Vec& v1, const double& n);
-    double norm();
+    double norm();                          //Euclidean norm
+    double distance(const Vec& other);      //distance between 2 points
+    Vec& normalize();                       //normalize, so that euclidean norm is 1
+    double dot(const Vec& other);           //dot product
+    double cross(const Vec& other);         //will be always perpendicular to the screen, we just need the magnitude
+    Vec& transform(const double& angle);    //transform with a rotation matrix to rotate things
 
 };
 
@@ -74,37 +95,53 @@ struct Vec{
 template<class... Ts> struct overloaded : Ts... { using Ts::operator()...; };
 template<class... Ts> overloaded(Ts...) -> overloaded<Ts...>;
 
-
-struct Rectangle{
+struct Properties{
 
     double mass;
-    Vec pos;  //center of mass
+    double density;
+
+    Vec pos;        //center of mass = teziste
+    double rot;     //rotation of an object (0 to 2PI rad)
+
+    Vec vel;        //velocity  
+    double rotvel;  //angular velocity; omega = 2pi*frequency
+
+    bool is_static;
+    bool is_selected;
+
+    Properties(const double& m, const double& d, const Vec& position, const double& rotation, const Vec& velocity, const double& rv, bool ist, bool ise);
+    Properties(double&& m, double&& d, Vec&& position, double&& rotation, Vec&& velocity, double&& rv, bool ist, bool ise);
+};
+
+
+struct Rectangle : public Properties {
+
     Vec size; //size.x = a side lenght; size.y = b side lenght
-    Vec vel; 
 
-    Rectangle(const Vec& position, const Vec& s, const Vec& velocity = Vec(0,0), const double& m = 1.0);
-    Rectangle(Vec&& position, Vec&& s, Vec&& velocity = Vec(0,0), double&& m = 1.0);
+    Rectangle(const Vec& position, const Vec& s, const Vec& velocity = Vec(0,0), const double& m = 1.0, const double& d = 1.0, 
+        const double& r = 0.0, const double& rv = 0.0, bool ist = false, bool ise = false);
+    Rectangle(Vec&& position, Vec&& s, Vec&& velocity = Vec(0,0), double&& m = 1.0, double&& d = 1.0,
+         double&& r = 0.0, double&& rv = 0.0, bool ist = false, bool ise = false);
 };
 
-struct Triangle{
+struct Triangle : public Properties {
 
-    double mass;
-    Vec A, B, C;
-    Vec vel; 
+    double size;   //distance from center of mass to a vertex (lets just go with rovnostranne trojuhelniky)
 
-    Triangle(const Vec& a, const Vec& b, const Vec& c, const Vec& velocity = Vec(0,0), const double& m = 1.0);
-    Triangle(Vec&& a, Vec&& b, Vec&& c, Vec&& velocity = Vec(0,0), double&& m = 1.0);
+    Triangle(const Vec& position, const double& s, const Vec& velocity = Vec(0,0), const double& m = 1.0, const double& d = 1.0,
+        const double& r = 0.0, const double& rv = 0.0, bool ist = false, bool ise = false);
+    Triangle(Vec&& position, double&& s, Vec&& velocity = Vec(0,0), double&& m = 1.0, double&& d = 1.0,
+        double&& r = 0.0, double&& rv = 0.0, bool ist = false, bool ise = false);
 };
 
-struct Circle{
+struct Circle : public Properties {
 
-    double mass;
-    double rad;
-    Vec pos;    //center of mass
-    Vec vel;
+    double rad; //radius of the circle
 
-    Circle(const Vec& position, const double& radius, const Vec& velocity = Vec(0,0), const double& m = 1.0);
-    Circle(Vec&& position, double&& radius, Vec&& velocity = Vec(0,0), double&& m = 1.0);
+    Circle(const Vec& position, const double& radius, const Vec& velocity = Vec(0,0), const double& m = 1.0, const double& d = 1.0,
+        const double& r = 0.0, const double& rv = 0.0, bool ist = false, bool ise = false);
+    Circle(Vec&& position, double&& radius, Vec&& velocity = Vec(0,0), double&& m = 1.0, double&& d = 1.0,
+        double&& r = 0.0, double&& rv = 0.0, bool ist = false, bool ise = false);
 };
 
 using Shape = std::variant<Rectangle, Triangle, Circle>;
@@ -120,14 +157,25 @@ struct Shapes{
     void add_shape(const Shape& sh);
     void add_shape(Shape&& sh);
     void delete_shape(const Vec& mousepos);
+    bool is_selected(const Shape& shape) const;
+    //Select or deleselt shape
+    void seldesel(Shape& shape);
     //checks if given coordinates are inside the shape
-    bool is_inside(const Vec& mousepos, const Shape& shape);
-    //drawing a single shape using std::visit
-    void draw(const Shape& shape);
+    bool is_inside(const Vec& mousepos, const Shape& shape) const;
+    //drawing a single shape
+    void draw(const Shape& shape) const;
     //drawing all the shapes in the "shapes" vector
-    void draw_all_shapes();
-    
+    void draw_all_shapes() const;
+    //changes the size
     void resize_shape(Shape& sh, const double& offset);
+    //rotate shape
+    void rotate_shape(Shape& sh, const double& angle);
+    //moves the shape by following the cursor
+    void move_shape_to(Shape& sh, const Vec& offset);
+    //moves the shape by some value
+    void move_shape(Shape& sh, const Vec& offset);
+    //computes the vertices fro given shape
+    std::vector<Vec> get_vertices(const Shape& shape) const;
 };
 
 //representing all the shapes on the screen
