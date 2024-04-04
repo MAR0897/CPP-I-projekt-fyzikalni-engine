@@ -36,6 +36,11 @@ double Vec::cross(const Vec& other) const { return x*other.y-y*other.x; }
 Vec& Vec::rotation_transform(const double& angle) {
     double temp = x;
     x = cos(angle)*x - sin(angle)*y;
-    y = sin(angle)*temp +cos(angle)*y;
+    y = sin(angle)*temp + cos(angle)*y;
+    return *this;
+}
+Vec& Vec::perpendiculate(){
+    std::swap(x, y);
+    x = -x;
     return *this;
 }

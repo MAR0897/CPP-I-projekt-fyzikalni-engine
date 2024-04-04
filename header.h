@@ -13,6 +13,7 @@
 #include <variant>
 #include <chrono>
 #include <thread>
+#include <limits>
 
 struct Vec;
 
@@ -89,6 +90,7 @@ struct Vec{
     double dot(const Vec& other) const;                     //dot product
     double cross(const Vec& other) const;                   //will be always perpendicular to the screen, we just need the magnitude
     Vec& rotation_transform(const double& angle);           //transform with a rotation matrix to rotate things
+    Vec& perpendiculate();  // :)                           //transforms vector into a kolmy vector (swaps x and y and changes x into -x)
 
 };
 
@@ -205,6 +207,14 @@ struct Shapes{
 
     //whether two shapes intersect
     static bool intersect(const Shape& sh1, const Shape& sh2, double& depth, Vec& normal);
+        //Polygon x polygon intersection check
+        static bool intersect_polyXpoly(const std::vector<Vec>& verts1, const std::vector<Vec>& verts2);
+        //Polygon x circle intersection check
+        static bool intersect_polyXcirc(const std::vector<Vec>& verts1, const Circle& c);
+        //Circle x circle intersection check
+        static bool intersect_circXcirc(const Circle& c1, const Circle& c2, double& depth, Vec& normal);
+        //Projecting vertices of both shapes to find if they intersect (Separating axis theorem)
+        static void project_vertices(const std::vector<Vec>& vertices, const Vec& axis, double& max, double& min);
     //handle collisions based on intersecting
     void handle_collisions();
 
