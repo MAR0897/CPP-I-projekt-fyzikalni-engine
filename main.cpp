@@ -2,6 +2,15 @@
 
 
 Shapes sh;
+Shapes bgsh;
+
+namespace cas{
+    double fixed_delta_time = 0;    // fixed_delta_time = 1/refresh rate of the monitor
+    double time_start = 0;
+    double time_end = 0;
+    double sleep_time = 0;          
+}
+
 
 int main() {
 
@@ -19,22 +28,41 @@ int main() {
     //set window buffers swap interval - vsync (aspon doufam ze to tak funguje)
     glfwSwapInterval(1);
 
+    //get FPS of the monitor the engine is running on
+    GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
+    if (primaryMonitor) {
+        const GLFWvidmode* mode = glfwGetVideoMode(primaryMonitor);
+        if (mode) cas::fixed_delta_time = (1.0/static_cast<double>(mode->refreshRate));
+    }
 
-
+    //set key callbacks
     glfwSetMouseButtonCallback(window, mouse_button_callback);
     glfwSetScrollCallback(window, scroll_callback);
     glfwSetKeyCallback(window, key_callback);
 
+    //add ground
+    bgsh.add_shape((Rectangle{Vec{0.0, GROUND}, Vec{1.0*ST, -GROUND}, Vec{0,0}, 1.0, 1.0, 0.0, 0.0, true, false}));  
+
 
     
 
-    
+
 //------------------------------------------------------------------------------------------------------------------------
 //Main loop
+
     while (!glfwWindowShouldClose(window)) {
-        
+
+        cas::time_start = glfwGetTime();
+
+
+        //sh.update_by_acceleration(cas::fixed_delta_time, Vec{0.0, -0.981}); //gravity
+        sh.update_position(cas::fixed_delta_time);
+
         draw_background();
         sh.draw_all_shapes();
+
+
+
 
 
 
@@ -42,6 +70,10 @@ int main() {
         glfwSwapBuffers(window);
         // Poll for and process events
         glfwPollEvents();
+
+        cas::time_end = glfwGetTime();
+        cas::sleep_time = cas::fixed_delta_time - (cas::time_end-cas::time_start);
+        std::this_thread::sleep_for(std::chrono::duration<double>(cas::sleep_time));
     }
 //End of main loop
 //------------------------------------------------------------------------------------------------------------------------

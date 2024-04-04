@@ -7,6 +7,9 @@ void errorCallback(int error, const char* description){
 void draw_background(){
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+    bgsh.draw_all_shapes();
+    /*
+    
     glBegin(GL_LINES);
     glColor3ub(255, 255, 255);
     glVertex2f(-1.0f, GROUND);
@@ -18,5 +21,5 @@ void draw_background(){
     glVertex2f(1.0f, -1.0f);
     glVertex2f(1.0f, GROUND);
     glVertex2f(-1.0f, GROUND);
-    glEnd(); 
+    glEnd(); */
 }

@@ -11,6 +11,8 @@
 #include <cmath>
 #include <string_view>
 #include <variant>
+#include <chrono>
+#include <thread>
 
 struct Vec;
 
@@ -21,13 +23,14 @@ const int HEIGHT = 720;
 
 //screen transform constant, multiply y axis with this to get symetrical things
 /*  IMPORTANT: the whole program works with scaled coordinates (due to window width not necessarily being the same as window height),
-    only on the input (mouse coords) and output (the shapes you can see) the coordinates are scaled "normal vision"
+    only on the input (mouse coords) and output (the shapes you can see) the coordinates are scaled to "normal vision"
     (kdo to sakra vymyslel (ale treba je to vlastne dobre, nevim))
 */
 const double ST = static_cast<double>(WIDTH)/static_cast<double>(HEIGHT); 
 
 //Ground position
-const float GROUND = -0.7f; 
+const float GROUND = -0.7f;
+const double STATIC_SHAPES_OUTLINE = 0.01;
 
 //GLFW functions and window management================================================================================================================
 //GLFW error callback
@@ -80,12 +83,12 @@ struct Vec{
     friend Vec operator-(const Vec& v1, const double& n);
     friend Vec operator*(const Vec& v1, const double& n);
     friend Vec operator/(const Vec& v1, const double& n);
-    double norm();                          //Euclidean norm
-    double distance(const Vec& other);      //distance between 2 points
-    Vec& normalize();                       //normalize, so that euclidean norm is 1
-    double dot(const Vec& other);           //dot product
-    double cross(const Vec& other);         //will be always perpendicular to the screen, we just need the magnitude
-    Vec& transform(const double& angle);    //transform with a rotation matrix to rotate things
+    double norm();                                  //Euclidean norm
+    double distance(const Vec& other);              //distance between 2 points
+    Vec& normalize();                               //normalize, so that euclidean norm is 1
+    double dot(const Vec& other);                   //dot product
+    double cross(const Vec& other);                 //will be always perpendicular to the screen, we just need the magnitude
+    Vec& rotation_transform(const double& angle);   //transform with a rotation matrix to rotate things
 
 };
 
@@ -146,7 +149,7 @@ struct Circle : public Properties {
 
 using Shape = std::variant<Rectangle, Triangle, Circle>;
 
-
+//vector of shapes (shapes handle)
 struct Shapes{
 
     std::vector<Shape> shapes;
@@ -157,15 +160,29 @@ struct Shapes{
     void add_shape(const Shape& sh);
     void add_shape(Shape&& sh);
     void delete_shape(const Vec& mousepos);
-    bool is_selected(const Shape& shape) const;
-    //Select or deleselt shape
-    void seldesel(Shape& shape);
-    //checks if given coordinates are inside the shape
-    bool is_inside(const Vec& mousepos, const Shape& shape) const;
-    //drawing a single shape
-    void draw(const Shape& shape) const;
     //drawing all the shapes in the "shapes" vector
     void draw_all_shapes() const;
+    //update physical properties (position, velocity) by delta time
+    void update_position(const double& delta);
+    void update_by_force(const double& delta, const Vec& force);
+    void update_by_acceleration(const double& delta, const Vec& acceleration);
+
+    void handle_intersections();
+
+};
+
+//functions for individual shapes
+namespace shf{
+    //whether two shapes intersect
+    bool intersect(const Shape& sh1, const Shape& sh2);
+    //whether a certain shape has is_selected value true
+    bool is_selected(const Shape& shape);
+    //select or deleselt shape
+    void seldesel(Shape& shape);
+    //checks if given coordinates are inside the shape
+    bool is_inside(const Vec& mousepos, const Shape& shape);
+    //drawing a single shape
+    void draw(const Shape& shape);
     //changes the size
     void resize_shape(Shape& sh, const double& offset);
     //rotate shape
@@ -175,11 +192,13 @@ struct Shapes{
     //moves the shape by some value
     void move_shape(Shape& sh, const Vec& offset);
     //computes the vertices fro given shape
-    std::vector<Vec> get_vertices(const Shape& shape) const;
-};
+    std::vector<Vec> get_vertices(const Shape& shape);
+}
 
-//representing all the shapes on the screen
-extern Shapes sh;
+
+//shape handle representing all the shapes on the screen
+extern Shapes sh;       //user placed shape handles
+extern Shapes bgsh;     //background shape handles 
 
 
 
