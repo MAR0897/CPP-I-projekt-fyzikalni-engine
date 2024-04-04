@@ -41,7 +41,9 @@ int main() {
     glfwSetKeyCallback(window, key_callback);
 
     //add ground
-    bgsh.add_shape((Rectangle{Vec{0.0, GROUND}, Vec{1.0*ST, -GROUND}, Vec{0,0}, 1.0, 1.0, 0.0, 0.0, true, false}));  
+    bgsh.add_shape(Rectangle{Vec{0.0, GROUND}, Vec{1.0*ST, -GROUND}});  
+    for (auto& shape: bgsh.shapes) Shapes::toggle_static(shape);
+
 
 
     
@@ -57,6 +59,7 @@ int main() {
 
         //sh.update_by_acceleration(cas::fixed_delta_time, Vec{0.0, -0.981}); //gravity
         sh.update_position(cas::fixed_delta_time);
+        sh.handle_collisions();
 
         draw_background();
         sh.draw_all_shapes();
