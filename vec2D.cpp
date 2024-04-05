@@ -28,9 +28,10 @@ Vec operator+(const Vec& v1, const double& n) { return Vec(v1.x + n, v1.y + n); 
 Vec operator-(const Vec& v1, const double& n) { return Vec(v1.x - n, v1.y - n); }
 Vec operator*(const Vec& v1, const double& n) { return Vec(v1.x * n, v1.y * n); }
 Vec operator/(const Vec& v1, const double& n) { return Vec(v1.x / n, v1.y / n); }
+std::ostream& operator<<(std::ostream& os, const Vec& vec) { os<<"("<<vec.x<<", "<<vec.y<<")"<<std::endl; return os; }
 double Vec::norm() const { return std::pow(x*x+y*y, 0.5); }
 double Vec::distance(const Vec& other) const { return std::pow((x-other.x)*(x-other.x)+(y-other.y)*(y-other.y), 0.5);}
-Vec& Vec::normalize() { x/=norm(); y/=norm(); return *this; }
+Vec& Vec::normalize() { *this/=this->norm(); return *this; }
 double Vec::dot(const Vec& other) const { return x*other.x+y*other.y; }
 double Vec::cross(const Vec& other) const { return x*other.y-y*other.x; }
 Vec& Vec::rotation_transform(const double& angle) {

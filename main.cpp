@@ -3,6 +3,7 @@
 
 Shapes sh;
 Shapes bgsh;
+bool gravity = false;
 
 namespace cas{
     double fixed_delta_time = 0;    // fixed_delta_time = 1/refresh rate of the monitor
@@ -51,16 +52,15 @@ int main() {
 
 //------------------------------------------------------------------------------------------------------------------------
 //Main loop
-
     while (!glfwWindowShouldClose(window)) {
-
+        
         cas::time_start = glfwGetTime();
 
 
-        //sh.update_by_acceleration(cas::fixed_delta_time, Vec{0.0, -0.981}); //gravity
+        if(gravity) sh.update_by_acceleration(cas::fixed_delta_time, Vec{0.0, -0.981}); //gravity
         sh.update_position(cas::fixed_delta_time);
         sh.handle_collisions();
-
+        
         draw_background();
         sh.draw_all_shapes();
 
@@ -77,6 +77,7 @@ int main() {
         cas::time_end = glfwGetTime();
         cas::sleep_time = cas::fixed_delta_time - (cas::time_end-cas::time_start);
         std::this_thread::sleep_for(std::chrono::duration<double>(cas::sleep_time));
+        
     }
 //End of main loop
 //------------------------------------------------------------------------------------------------------------------------

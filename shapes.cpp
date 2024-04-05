@@ -325,12 +325,12 @@ bool Shapes::intersect(const Shape& sh1, const Shape& sh2, double& depth, Vec& n
     bool do_they_intersect = false;
 
     std::visit(overloaded {
-        [&](const Rectangle& r1, const Rectangle& r2) {},
-        [&](const Rectangle& r, const Triangle& t) {},
+        [&](const Rectangle& r1, const Rectangle& r2) { do_they_intersect = Shapes::intersect_polyXpoly(r1.vertices, r2.vertices, r1.pos, r2.pos, depth, normal); },
+        [&](const Rectangle& r, const Triangle& t) { do_they_intersect = Shapes::intersect_polyXpoly(r.vertices, t.vertices, r.pos, t.pos, depth, normal); },
         [&](const Rectangle& r, const Circle& c) { },
-        [&](const Triangle& t, const Rectangle& r) {},
-        [&](const Triangle& t1, const Triangle& t2) {},
-        [&](const Triangle& t, const Circle& c) {},
+        [&](const Triangle& t, const Rectangle& r) { do_they_intersect = Shapes::intersect_polyXpoly(t.vertices, r.vertices, t.pos, r.pos, depth, normal); },
+        [&](const Triangle& t1, const Triangle& t2) { do_they_intersect = Shapes::intersect_polyXpoly(t1.vertices, t2.vertices, t1.pos, t2.pos, depth, normal); },
+        [&](const Triangle& t, const Circle& c) { },
         [&](const Circle& c, const Rectangle& r) {},
         [&](const Circle& c, const Triangle& t) {},
         [&](const Circle& c1, const Circle& c2) { do_they_intersect = Shapes::intersect_circXcirc(c1, c2, depth, normal); }
@@ -339,29 +339,64 @@ bool Shapes::intersect(const Shape& sh1, const Shape& sh2, double& depth, Vec& n
     return do_they_intersect;
 }
 
-bool Shapes::intersect_polyXpoly(const std::vector<Vec>& verts1, const std::vector<Vec>& verts2){
+bool Shapes::intersect_polyXpoly(const std::vector<Vec>& verts1, const std::vector<Vec>& verts2, const Vec& center1, const Vec& center2, double& depth, Vec& normal){
 
-    for (auto it = verts1.begin(); it!=verts1.end(); ++it){
+    depth = std::numeric_limits<double>::infinity();
+
+    for (auto it = verts1.begin(); it!=verts1.end(); ++it){     //iterate over edges of the first polygon
 
         Vec va{*it}; 
         Vec vb;                                                     //take a vertex
-        if(std::next(it) == verts1.end()) Vec vb{*verts1.begin()};  //and take its neightbor to get the edge
-        else Vec vb{*std::next(it)};
+        if(std::next(it) != verts1.end()) vb = *std::next(it);    //and take its neightbor to get the edge
+        else vb = *verts1.begin();
+        
+        Vec axis = (vb-va).perpendiculate().normalize();                        //get the axis we are going to test
+    
+        double max1, max2, min1, min2;
 
-        Vec axis = (vb-va).perpendiculate();                        //get the axis we are going to test
+        Shapes::project_vertices(verts1, axis, max1, min1);
+        Shapes::project_vertices(verts2, axis, max2, min2);
 
-        double max1 = std::numeric_limits<double>::max();
-        double min1 = std::numeric_limits<double>::min();
-        double max2 = std::numeric_limits<double>::max();
-        double min2 = std::numeric_limits<double>::min();
+        if ((min1 >= max2) or (min2 >= max1)) return false;         //if both mins were smaller than maxs, the polygons would intersect
+        
+        double axis_depth = std::min(max2-min1, max1-min2);         //calculate how much they are intersecting
 
+        if (axis_depth<depth){
+            depth = axis_depth;
+            normal = axis;
+        } 
+    }
 
-        //not finished
+    for (auto it = verts2.begin(); it!=verts2.end(); ++it){     //iterate over edges of the second polygon
 
+        Vec va{*it}; 
+        Vec vb;                                                     //take a vertex
+        if(std::next(it) != verts2.end()) vb = *std::next(it);    //and take its neightbor to get the edge
+        else vb = *verts2.begin();
+        
+        Vec axis = (vb-va).perpendiculate().normalize();                        //get the axis we are going to test
+    
+        double max1, max2, min1, min2;
+
+        Shapes::project_vertices(verts1, axis, max1, min1);
+        Shapes::project_vertices(verts2, axis, max2, min2);
+
+        if ((min1 >= max2) or (min2 >= max1)) return false;         //if both mins were smaller than maxs, the polygons would intersect
+
+        double axis_depth = std::min(max2-min1, max1-min2);         //calculate how much they are intersecting
+
+        if (axis_depth<depth){
+            depth = axis_depth;
+            normal = axis;
+        }
         
     }
 
+    if (normal.dot(center1-center2) < 0.0) normal = -normal;    //check the correct orientation of the normal
+    return true;
 }
+
+
 bool Shapes::intersect_polyXcirc(const std::vector<Vec>& verts1, const Circle& c){
 
 }
@@ -377,14 +412,16 @@ bool Shapes::intersect_circXcirc(const Circle& c1, const Circle& c2, double& dep
     return false;
 }
 
-static void project_vertices(const std::vector<Vec>& vertices, const Vec& axis, double& max, double& min){
+void Shapes::project_vertices(const std::vector<Vec>& vertices, const Vec& axis, double& max, double& min){
+
+    max = -std::numeric_limits<double>::infinity(); //std::numeric_limits<double>::min(); VRACI NULU!!!!!!
+    min = std::numeric_limits<double>::infinity();
 
     for (const auto& vertex : vertices){
         double projected = vertex.dot(axis);
         if (projected > max) max = projected;
         if (projected < min) min = projected;
     }
-
 }
 
 

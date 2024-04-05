@@ -9,6 +9,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
             glfwSetWindowShouldClose(window, GLFW_TRUE);
         }
 
+        if (key == GLFW_KEY_G and action == GLFW_PRESS){
+            gravity = !gravity; 
+        }
+
         if (key == GLFW_KEY_R and action == GLFW_PRESS){
             sh.add_shape((Rectangle{get_mouse_coords(window), Vec{0.2, 0.2}}));   
         }

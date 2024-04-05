@@ -33,6 +33,9 @@ const double ST = static_cast<double>(WIDTH)/static_cast<double>(HEIGHT);
 const float GROUND = -0.7f;
 const double STATIC_SHAPES_OUTLINE = 0.01;
 
+extern bool gravity;
+
+
 //GLFW functions and window management================================================================================================================
 //GLFW error callback
 void errorCallback(int error, const char* description);
@@ -84,6 +87,7 @@ struct Vec{
     friend Vec operator-(const Vec& v1, const double& n);
     friend Vec operator*(const Vec& v1, const double& n);
     friend Vec operator/(const Vec& v1, const double& n);
+    friend std::ostream& operator<<(std::ostream& os, const Vec& vec);
     double norm() const;                                    //Euclidean norm
     double distance(const Vec& other) const;                //distance between 2 points
     Vec& normalize();                                       //normalize, so that euclidean norm is 1
@@ -208,7 +212,7 @@ struct Shapes{
     //whether two shapes intersect
     static bool intersect(const Shape& sh1, const Shape& sh2, double& depth, Vec& normal);
         //Polygon x polygon intersection check
-        static bool intersect_polyXpoly(const std::vector<Vec>& verts1, const std::vector<Vec>& verts2);
+        static bool intersect_polyXpoly(const std::vector<Vec>& verts1, const std::vector<Vec>& verts2, const Vec& center1, const Vec& center2, double& depth, Vec& normal);
         //Polygon x circle intersection check
         static bool intersect_polyXcirc(const std::vector<Vec>& verts1, const Circle& c);
         //Circle x circle intersection check
