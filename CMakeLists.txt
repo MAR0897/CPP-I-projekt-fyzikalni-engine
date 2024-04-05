@@ -10,7 +10,17 @@ find_package(GLEW REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS} ${GLFW_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS})
 
 # Add executable
-add_executable(main main.cpp keys.cpp window.cpp objects.cpp)
+set(SOURCES 
+    src/main.cpp 
+    src/keys.cpp 
+    src/window.cpp 
+    src/shapes.cpp 
+    src/shape_types.cpp 
+    src/vec2D.cpp
+)
+
+# Add executable
+add_executable(main ${SOURCES})
 
 # Link against the necessary libraries
 target_link_libraries(main ${OPENGL_LIBRARIES} glfw ${GLEW_LIBRARIES})
