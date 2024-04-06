@@ -10,7 +10,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         }
 
         if (key == GLFW_KEY_G and action == GLFW_PRESS){
-            gravity = !gravity; 
+            physics::gravity = !physics::gravity; 
         }
 
         if (key == GLFW_KEY_R and action == GLFW_PRESS){
@@ -38,16 +38,16 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         }
 
         if (key == GLFW_KEY_UP and (action == GLFW_PRESS or action == GLFW_REPEAT)){
-            for (auto& shape : sh.shapes) if (Shapes::is_selected(shape)) Shapes::move_shape(shape, Vec{0.0, 0.02});   
+            for (auto& shape : sh.shapes) if (Shapes::is_selected(shape)) Shapes::add_force(shape, Vec{0.0, 0.1});   
         }
         if (key == GLFW_KEY_DOWN and (action == GLFW_PRESS or action == GLFW_REPEAT)){
-            for (auto& shape : sh.shapes) if (Shapes::is_selected(shape)) Shapes::move_shape(shape, Vec{0.0, -0.02});  
+            for (auto& shape : sh.shapes) if (Shapes::is_selected(shape)) Shapes::add_force(shape, Vec{0.0, -0.1});  
         }
         if (key == GLFW_KEY_LEFT and (action == GLFW_PRESS or action == GLFW_REPEAT)){
-            for (auto& shape : sh.shapes) if (Shapes::is_selected(shape)) Shapes::move_shape(shape, Vec{-0.02, 0.0});   
+            for (auto& shape : sh.shapes) if (Shapes::is_selected(shape)) Shapes::add_force(shape, Vec{-0.1, 0.0});   
         }
         if (key == GLFW_KEY_RIGHT and (action == GLFW_PRESS or action == GLFW_REPEAT)){
-            for (auto& shape : sh.shapes) if (Shapes::is_selected(shape)) Shapes::move_shape(shape, Vec{0.02, 0.0});  
+            for (auto& shape : sh.shapes) if (Shapes::is_selected(shape)) Shapes::add_force(shape, Vec{0.1, 0.0});  
         }
 
         if (key == GLFW_KEY_S and action == GLFW_PRESS){

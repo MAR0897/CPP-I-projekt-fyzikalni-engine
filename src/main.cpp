@@ -3,7 +3,7 @@
 
 Shapes sh;
 Shapes bgsh;
-bool gravity = false;
+bool physics::gravity = false;
 
 namespace cas{
     double fixed_delta_time = 0;    // fixed_delta_time = 1/refresh rate of the monitor
@@ -42,8 +42,8 @@ int main() {
     glfwSetKeyCallback(window, key_callback);
 
     //add ground
-    bgsh.add_shape(Rectangle{Vec{0.0, GROUND}, Vec{1.0*ST, -GROUND}});  
-    for (auto& shape: bgsh.shapes) Shapes::toggle_static(shape);
+    sh.add_shape(Rectangle{Vec{0.0, GROUND}, Vec{1.0*ST, -GROUND}});  
+    for (auto& shape: sh.shapes) Shapes::toggle_static(shape);
 
 
 
@@ -57,12 +57,15 @@ int main() {
 
 
 
-        if(gravity) sh.update_by_acceleration(cas::fixed_delta_time, Vec{0.0, -0.981}); //gravity
+        if(physics::gravity) sh.update_by_acceleration(cas::fixed_delta_time, Vec{0.0, -0.981}); //gravity
+        sh.update_by_force(cas::fixed_delta_time);
         sh.update_position(cas::fixed_delta_time);
         sh.handle_collisions();
         
         draw_background();
         sh.draw_all_shapes();
+
+        
 
 
 

@@ -12,13 +12,17 @@ template<class... Ts> overloaded(Ts...) -> overloaded<Ts...>;
 struct Properties{
 
     double mass;
+    double inverse_mass;
     double density;
+    double restitution = 0.5; //vzpruživost - koeficient restituce - pružnost, ale co se týče odrazů - od 0 do 1
 
     Vec pos;        //center of mass = teziste
     double rot;     //rotation of an object (0 to 2PI rad)
 
     Vec vel;        //velocity  
     double rotvel;  //angular velocity; omega = 2pi*frequency
+
+    Vec force{0.0, 0.0};
 
     bool is_static = false;
     bool is_selected = false;
@@ -76,6 +80,16 @@ struct Shapes{
     void add_shape(Shape&& sh);
     void delete_shape(const Vec& mousepos);
 
+    //get velocity of the shape
+    static Vec& get_velocity(Shape& shape);
+    //get mass of the shape
+    static double get_mass(const Shape& shape);
+    //get inverse mass of the shape
+    static double get_inverse_mass(const Shape& shape);
+    //get coefficient of restitution of the shape
+    static double get_restitution(const Shape& shape);
+
+
     //whether a certain shape has is_selected value true
     static bool is_selected(const Shape& shape);
     //select or deleselt shape
@@ -99,6 +113,8 @@ struct Shapes{
 
     //changes the size
     static void resize_shape(Shape& sh, const double& offset);
+        //change the mass due to resizing
+        static void change_mass(Shape& sh);
     //rotate shape
     static void rotate_shape(Shape& sh, const double& angle);
     //moves the shape by following the cursor
@@ -110,9 +126,12 @@ struct Shapes{
     //update position with s = v * t
     void update_position(const double& delta);
     //update velocity with v = F/m * t
-    void update_by_force(const double& delta, const Vec& force);
+    void update_by_force(const double& delta);
     //update velocity with v = a * t (mainly or solely used for gravitation)
     void update_by_acceleration(const double& delta, const Vec& acceleration);
+
+    //for single shape
+    static void add_force(Shape& shape, const Vec& force);
 
     //whether two shapes intersect
     static bool intersect(const Shape& sh1, const Shape& sh2, double& depth, Vec& normal);
@@ -126,8 +145,10 @@ struct Shapes{
         static void project_vertices(const std::vector<Vec>& vertices, const Vec& axis, double& max, double& min);
         //converting circle into two vectices to allow projecting then onto the separating axis
         static void project_circle(const Circle& c, const Vec& axis, double& max, double& min);
-    //handle collisions based on intersecting
+    //checks if any shapes are intersecting and resolve that intersection by applying resolve_collision()
     void handle_collisions();
+    //advanced formula for resolving collisions
+    static void resolve_collisions(Shape& shape1, Shape& shape2, double& depth, Vec& normal);
 
 };
 

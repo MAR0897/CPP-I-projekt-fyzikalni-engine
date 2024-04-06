@@ -4,9 +4,9 @@
 //Shape types===========================================================================================
 
 Properties::Properties(const double& m, const double& d, const Vec& position, const double& rotation, const Vec& velocity, const double& rv) :
-    mass(m), density(d), pos(position), rot(rotation), vel(velocity), rotvel(rv) {}
+    mass(m), density(d), pos(position), rot(rotation), vel(velocity), rotvel(rv), inverse_mass(1.0/mass) {}
 Properties::Properties(double&& m, double&& d, Vec&& position, double&& rotation, Vec&& velocity, double&& rv) :
-    mass(std::move(m)), density(std::move(d)), pos(std::move(position)), rot(std::move(rotation)), vel(std::move(velocity)), rotvel(std::move(rv)) {}
+    mass(std::move(m)), density(std::move(d)), pos(std::move(position)), rot(std::move(rotation)), vel(std::move(velocity)), rotvel(std::move(rv)), inverse_mass(1.0/mass) {}
 
 Rectangle::Rectangle(const Vec& position, const Vec& s, const Vec& velocity, const double& m, const double& d, const double& r, const double& rv) :
     size(s), 
