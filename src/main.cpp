@@ -3,13 +3,33 @@
 
 Shapes sh;
 Shapes bgsh;
-bool physics::gravity = false;
+std::vector<Collisions> Collisions::contacts;
 
-namespace cas{
+
+namespace cas {
     double fixed_delta_time = 0;    // fixed_delta_time = 1/refresh rate of the monitor
     double time_start = 0;
     double time_end = 0;
     double sleep_time = 0;          
+}
+
+namespace physics {
+
+    bool gravity = false;
+
+    void step(const double& delta, const int& iterations){
+
+        double delta_time = delta/static_cast<double>(iterations);
+
+        for (int it = 0; it<iterations; ++it){
+
+            if(gravity) sh.update_by_acceleration(delta_time, Vec{0.0, -0.981}); //gravity
+            sh.update_by_force(delta_time);
+            sh.update_position(delta_time);
+            sh.handle_collisions();
+
+        }
+    }
 }
 
 
@@ -20,7 +40,7 @@ int main() {
     //initialize GLFW
     if (!glfwInit()) { std::cerr << "Failed to initialize GLFW" << std::endl; return -1; }
     //set error callback
-    glfwSetErrorCallback(errorCallback);
+    glfwSetErrorCallback(cbs::errorCallback);
     //create window (dont worry, will be deleted at the end of main function)
     GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Super stacker 3", NULL, NULL);
     if (!window) { std::cerr << "Failed to create GLFW window" << std::endl; glfwTerminate(); return -1; }
@@ -37,9 +57,9 @@ int main() {
     }
 
     //set key callbacks
-    glfwSetMouseButtonCallback(window, mouse_button_callback);
-    glfwSetScrollCallback(window, scroll_callback);
-    glfwSetKeyCallback(window, key_callback);
+    glfwSetMouseButtonCallback(window, cbs::mouse_button_callback);
+    glfwSetScrollCallback(window, cbs::scroll_callback);
+    glfwSetKeyCallback(window, cbs::key_callback);
 
     //add ground
     sh.add_shape(Rectangle{Vec{0.0, GROUND}, Vec{1.0*ST, -GROUND}});  
@@ -57,15 +77,15 @@ int main() {
 
 
 
-        if(physics::gravity) sh.update_by_acceleration(cas::fixed_delta_time, Vec{0.0, -0.981}); //gravity
-        sh.update_by_force(cas::fixed_delta_time);
-        sh.update_position(cas::fixed_delta_time);
-        sh.handle_collisions();
-        
-        draw_background();
-        sh.draw_all_shapes();
+        physics::step(cas::fixed_delta_time, 10);
 
-        
+        window::draw_background();
+        sh.draw_all_shapes();
+        sh.delete_out_of_screen();
+
+        //if(sh.shapes.size()>=2) std::cout<<std::get<Circle>(sh.shapes[1]).vel<<std::endl;
+
+        //std::cout<<Collisions::contacts.size()<<std::endl;
 
 
 

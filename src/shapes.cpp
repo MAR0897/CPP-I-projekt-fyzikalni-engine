@@ -14,51 +14,57 @@ void Shapes::delete_shape(const Vec& mousepos) {
     }), shapes.end());
 }
 
+void Shapes::delete_out_of_screen() {
+    shapes.erase(std::remove_if(shapes.begin(), shapes.end(), [](const Shape& shape) {
+        AABB aabb = Shapes::get_AABB(shape);
+        return aabb.max.y < -1.0;
+    }), shapes.end());
+}
+
 Vec& Shapes::get_velocity(Shape& shape) {
-    std::visit(overloaded {
+    return std::visit(overloaded {
         [&](Rectangle& r) -> Vec& { return r.vel; },
         [&](Triangle& t) -> Vec& { return t.vel; },
         [&](Circle& c) -> Vec& { return c.vel; },
     }, shape);
 }
 double Shapes::get_mass(const Shape& shape) {
-    double mass;
-    std::visit(overloaded {
-        [&](const Rectangle& r) { mass = r.mass; },
-        [&](const Triangle& t) { mass = t.mass; },
-        [&](const Circle& c) { mass = c.mass; },
+    return std::visit(overloaded {
+        [&](const Rectangle& r) -> double { return r.mass; },
+        [&](const Triangle& t) -> double { return t.mass; },
+        [&](const Circle& c) -> double { return c.mass; },
     }, shape);
-    return mass;
 }
 double Shapes::get_inverse_mass(const Shape& shape) {
-    double mass;
-    std::visit(overloaded {
-        [&](const Rectangle& r) { mass = r.inverse_mass; },
-        [&](const Triangle& t) { mass = t.inverse_mass; },
-        [&](const Circle& c) { mass = c.inverse_mass; },
+    return std::visit(overloaded {
+        [&](const Rectangle& r) -> double { return r.inverse_mass; },
+        [&](const Triangle& t) -> double { return t.inverse_mass; },
+        [&](const Circle& c) -> double { return c.inverse_mass; },
     }, shape);
-    return mass;
 }
 double Shapes::get_restitution(const Shape& shape) {
-    double restitution;
-    std::visit(overloaded {
-        [&](const Rectangle& r) { restitution = r.restitution; },
-        [&](const Triangle& t) { restitution = t.restitution;  },
-        [&](const Circle& c) { restitution = c.restitution;  },
+    return std::visit(overloaded {
+        [&](const Rectangle& r) -> double { return r.restitution; },
+        [&](const Triangle& t) -> double { return t.restitution; },
+        [&](const Circle& c) -> double { return c.restitution; },
     }, shape);
-    return restitution;
+}
+AABB Shapes::get_AABB(const Shape& shape){
+    return std::visit(overloaded {
+        [&](const Rectangle& r) -> AABB { return r.box; },
+        [&](const Triangle& t) -> AABB { return t.box; },
+        [&](const Circle& c) -> AABB { return c.box; },
+    }, shape);
 }
 
 
 
 bool Shapes::is_selected(const Shape& shape) {
-    bool is_selected = false;
-    std::visit(overloaded {
-        [&](const Rectangle& r) { if(r.is_selected) is_selected = true; },
-        [&](const Triangle& t) { if(t.is_selected) is_selected = true;  },
-        [&](const Circle& c) { if(c.is_selected) is_selected = true;  },
+    return std::visit(overloaded {
+        [&](const Rectangle& r) -> bool { return r.is_selected; },
+        [&](const Triangle& t) -> bool { return t.is_selected; },
+        [&](const Circle& c) -> bool { return c.is_selected; },
     }, shape);
-    return is_selected;
 }
 void Shapes::toggle_selected(Shape& shape) {
     if(!Shapes::is_static(shape)){
@@ -70,13 +76,11 @@ void Shapes::toggle_selected(Shape& shape) {
     }
 }
 bool Shapes::is_static(const Shape& shape) {
-    bool is_static = false;
-    std::visit(overloaded {
-        [&](const Rectangle& r) { if(r.is_static) is_static = true; },
-        [&](const Triangle& t) { if(t.is_static) is_static = true; },
-        [&](const Circle& c) { if(c.is_static) is_static = true; },
+    return std::visit(overloaded {
+        [&](const Rectangle& r) -> bool { return r.is_static; },
+        [&](const Triangle& t) -> bool { return t.is_static; },
+        [&](const Circle& c) -> bool { return c.is_static; },
     }, shape);
-    return is_static;
 }
 void Shapes::toggle_static(Shape& shape) {
     std::visit(overloaded {
@@ -85,7 +89,7 @@ void Shapes::toggle_static(Shape& shape) {
                 r.is_selected = false;
                 r.is_static = true;
                 r.size -= STATIC_SHAPES_OUTLINE;
-                r.static_vertices = Shapes::get_vertices(r); 
+                r.static_vertices = std::move(Shapes::get_vertices(r)); 
                 r.size += STATIC_SHAPES_OUTLINE;
                 r.vel = Vec{0.0,0.0};
                 r.inverse_mass = 0.0;
@@ -100,7 +104,7 @@ void Shapes::toggle_static(Shape& shape) {
                 t.is_selected = false;
                 t.is_static = true;
                 t.size -= STATIC_SHAPES_OUTLINE;
-                t.static_vertices = Shapes::get_vertices(t); 
+                t.static_vertices = std::move(Shapes::get_vertices(t)); 
                 t.size += STATIC_SHAPES_OUTLINE;
                 t.vel = Vec{0.0,0.0};
                 t.inverse_mass = 0.0;
@@ -128,29 +132,28 @@ void Shapes::toggle_static(Shape& shape) {
 
 bool Shapes::is_inside(const Vec& mousepos, const Shape& shape) {
         
-    bool is_inside = false;
     double X = mousepos.x;
     double Y = mousepos.y;
 
-    std::visit(overloaded {
+    return std::visit(overloaded {
         [&](const Rectangle& r) {
             if ((r.pos.x-r.size.x/2 <= X and X <= r.pos.x + r.size.x/2) and
-                (r.pos.y-r.size.y/2 <= Y and Y <= r.pos.y + r.size.y/2)) is_inside = true;
+                (r.pos.y-r.size.y/2 <= Y and Y <= r.pos.y + r.size.y/2)) return true;
+            return false;
         },
         [&](const Triangle& t) {
             double d1, d2, d3;
             d1 = (X - t.vertices[1].x) * (t.vertices[0].y - t.vertices[1].y) - (t.vertices[0].x - t.vertices[1].x) * (Y - t.vertices[1].y);
             d2 = (X - t.vertices[2].x) * (t.vertices[1].y - t.vertices[2].y) - (t.vertices[1].x - t.vertices[2].x) * (Y - t.vertices[2].y);
             d3 = (X - t.vertices[0].x) * (t.vertices[2].y - t.vertices[0].y) - (t.vertices[2].x - t.vertices[0].x) * (Y - t.vertices[0].y);
-            is_inside = not (((d1 < 0) or (d2 < 0) or (d3 < 0)) and ((d1 > 0) or (d2 > 0) or (d3 > 0)));
+            return not (((d1 < 0) or (d2 < 0) or (d3 < 0)) and ((d1 > 0) or (d2 > 0) or (d3 > 0)));
         },
         [&](const Circle& c) {
             Vec a{X-c.pos.x, Y-c.pos.y};
-            if (a.norm() <= c.rad) is_inside = true;
+            if (a.norm() <= c.rad) return true;
+            return false;
         },
     }, shape);
-
-    return is_inside;
 }
 
 
@@ -184,132 +187,73 @@ std::vector<Vec> Shapes::get_vertices(const Shape& shape) {
     return vertices;
 }
 
-void Shapes::draw(const Shape& shape) {
+AABB Shapes::create_AABB(const Shape& shape) {
 
-    std::vector<Vec> vertices;
+    AABB aabb;
+    double minX = std::numeric_limits<double>::infinity(); 
+    double maxX = -std::numeric_limits<double>::infinity();
+    double minY = std::numeric_limits<double>::infinity();
+    double maxY = -std::numeric_limits<double>::infinity();
+
 
     std::visit(overloaded {
-        [&](const Rectangle& r) { 
-            glBegin(GL_QUADS);
-            if (r.is_selected) glColor3ub(255,0,0);
-            else glColor3ub(0,200,0);
-            glVertex2d(r.vertices[0].x, r.vertices[0].y*ST);
-            glVertex2d(r.vertices[1].x, r.vertices[1].y*ST);
-            glVertex2d(r.vertices[2].x, r.vertices[2].y*ST);
-            glVertex2d(r.vertices[3].x, r.vertices[3].y*ST);
-            glEnd();
+        [&](const Rectangle& r) {
+        
+            for (const auto& vertex: r.vertices){
+                if (vertex.x<minX) minX = vertex.x;
+                if (vertex.x>maxX) maxX = vertex.x;
+                if (vertex.y<minY) minY = vertex.y;
+                if (vertex.y>maxY) maxY = vertex.y;
+            }
 
-            glBegin(GL_LINE_LOOP);
-            glColor3ub(0,0,0);
-            glVertex2d(r.vertices[0].x, r.vertices[0].y*ST);
-            glVertex2d(r.vertices[1].x, r.vertices[1].y*ST);
-            glVertex2d(r.vertices[2].x, r.vertices[2].y*ST);
-            glVertex2d(r.vertices[3].x, r.vertices[3].y*ST);
-            glEnd();
+            aabb = AABB{minX, maxX, minY, maxY};
         },
-        [&](const Triangle& t) {
-            glBegin(GL_TRIANGLES);
-            if (t.is_selected) glColor3ub(255,0,0);
-            else glColor3ub(0,250,250);
-            glVertex2d(t.vertices[0].x, t.vertices[0].y*ST);
-            glVertex2d(t.vertices[1].x, t.vertices[1].y*ST);
-            glVertex2d(t.vertices[2].x, t.vertices[2].y*ST);
-            glEnd();
+        [&](const Triangle& t) { 
 
-            glBegin(GL_LINE_LOOP);
-            if (t.is_selected) glColor3ub(255,0,0);
-            glColor3ub(0,0,0);
-            glVertex2d(t.vertices[0].x, t.vertices[0].y*ST);
-            glVertex2d(t.vertices[1].x, t.vertices[1].y*ST);
-            glVertex2d(t.vertices[2].x, t.vertices[2].y*ST);
-            glEnd();
+            for (const auto& vertex: t.vertices){
+                if (vertex.x<minX) minX = vertex.x;
+                if (vertex.x>maxX) maxX = vertex.x;
+                if (vertex.y<minY) minY = vertex.y;
+                if (vertex.y>maxY) maxY = vertex.y;
+            }
+
+            aabb = AABB{minX, maxX, minY, maxY};
         },
         [&](const Circle& c) {
-
-            glBegin(GL_TRIANGLE_FAN);
-            if (c.is_selected) glColor3ub(255,0,0);
-            else glColor3ub(0,0,255);
-            for (int i = 0; i <= 360; ++i) {
-                double angle = static_cast<double>(i) * (PI/180.0);
-                glVertex2d(c.pos.x + (cos(angle)*c.rad), (c.pos.y + (sin(angle)*c.rad))*ST);
-            }
-            glEnd();
-
-        },
-    }, shape);
-}
-
-void Shapes::draw_static(const Shape& shape) {
-
-    std::vector<Vec> vertices;
-
-    std::visit(overloaded {
-        [&](const Rectangle& r) { 
-            glBegin(GL_QUADS);
-
-            glColor3ub(255,255,255);
-            glVertex2d(r.vertices[0].x, r.vertices[0].y*ST);
-            glVertex2d(r.vertices[1].x, r.vertices[1].y*ST);
-            glVertex2d(r.vertices[2].x, r.vertices[2].y*ST);
-            glVertex2d(r.vertices[3].x, r.vertices[3].y*ST);
-
-            glColor3ub(0,0,0);
-            glVertex2d(r.static_vertices[0].x, r.static_vertices[0].y*ST);
-            glVertex2d(r.static_vertices[1].x, r.static_vertices[1].y*ST);
-            glVertex2d(r.static_vertices[2].x, r.static_vertices[2].y*ST);
-            glVertex2d(r.static_vertices[3].x, r.static_vertices[3].y*ST);
-            
-            glEnd();
-        },
-        [&](const Triangle& t) {
-            glBegin(GL_TRIANGLES);
-            
-            glColor3ub(255,255,255);
-            glVertex2d(t.vertices[0].x, t.vertices[0].y*ST);
-            glVertex2d(t.vertices[1].x, t.vertices[1].y*ST);
-            glVertex2d(t.vertices[2].x, t.vertices[2].y*ST);
-
-            glColor3ub(0,0,0);
-            glVertex2d(t.static_vertices[0].x, t.static_vertices[0].y*ST);
-            glVertex2d(t.static_vertices[1].x, t.static_vertices[1].y*ST);
-            glVertex2d(t.static_vertices[2].x, t.static_vertices[2].y*ST);
-
-
-            glEnd();
-        },
-        [&](const Circle& c) {
-            glBegin(GL_TRIANGLE_FAN);
-
-            glColor3ub(255,255,255);
-            for (int i = 0; i <= 360; ++i) {
-                double angle = static_cast<double>(i) * (PI/180.0);
-                glVertex2d(c.pos.x + (cos(angle)*c.rad), (c.pos.y + ((sin(angle)*c.rad)))*ST);
-            }
-            glColor3ub(0,0,0);
-            for (int i = 0; i <= 360; ++i) {
-                double angle = static_cast<double>(i) * (PI/180.0);
-                glVertex2d(c.pos.x + (cos(angle)*(c.rad-STATIC_SHAPES_OUTLINE)), (c.pos.y + (sin(angle)*(c.rad-STATIC_SHAPES_OUTLINE)))*ST);
-            }
-            glEnd();
+            aabb = AABB{c.pos-c.rad, c.pos+c.rad};
         },
     }, shape);
 
-}
-
-void Shapes::draw_all_shapes() const { 
-    for (const auto& shape : shapes) {
-        if (Shapes::is_static(shape)) Shapes::draw_static(shape); 
-        else Shapes::draw(shape);
-    }
+    return aabb;
 }
 
 
 
 void Shapes::resize_shape(Shape& sh, const double& offset){
     std::visit(overloaded {
-        [&](Rectangle& r) { r.size+=offset; r.vertices = Shapes::get_vertices(r); Shapes::change_mass(sh); },
-        [&](Triangle& t) { t.size+=offset; t.vertices = Shapes::get_vertices(t); Shapes::change_mass(sh); },
-        [&](Circle& c) { c.rad+=offset; Shapes::change_mass(sh); },
+        [&](Rectangle& r) { 
+            if (r.size.norm() > 0.05 or offset > 0.0) {
+                r.size+=offset;
+                r.vertices = std::move(Shapes::get_vertices(r)); 
+                r.box = std::move(Shapes::create_AABB(r));
+                Shapes::change_mass(sh);
+            }
+        },
+        [&](Triangle& t) { 
+            if (t.size > 0.01 or offset > 0.0) {
+                t.size+=offset;
+                t.vertices = std::move(Shapes::get_vertices(t));
+                t.box = std::move(Shapes::create_AABB(t));
+                Shapes::change_mass(sh);
+            }
+        },
+        [&](Circle& c) { 
+            if (c.rad > 0.02 or offset > 0.0) {
+                c.rad+=offset;
+                c.box = std::move(Shapes::create_AABB(c));
+                Shapes::change_mass(sh);
+            }
+        },
     }, sh);
 }
 void Shapes::change_mass(Shape& sh){
@@ -323,43 +267,64 @@ void Shapes::change_mass(Shape& sh){
 void Shapes::rotate_shape(Shape& sh, const double& angle){
     if(angle!=0.0){
         std::visit(overloaded {
-            [&](Rectangle& r) { r.rot+=angle; r.vertices = Shapes::get_vertices(r); },
-            [&](Triangle& t) { t.rot+=angle; t.vertices = Shapes::get_vertices(t); },
+            [&](Rectangle& r) { 
+                r.rot+=angle;
+                r.vertices = std::move(Shapes::get_vertices(r));
+                r.box = std::move(Shapes::create_AABB(r));
+            },
+            [&](Triangle& t) { 
+                t.rot+=angle;
+                t.vertices = std::move(Shapes::get_vertices(t));
+                t.box = std::move(Shapes::create_AABB(t));
+            },
             [&](Circle& c) { c.rot+=angle; },
         }, sh);
     }
 }
 void Shapes::move_shape_to(Shape& sh, const Vec& offset){
     std::visit(overloaded {
-        [&](Rectangle& r) { r.pos=offset; r.vertices = Shapes::get_vertices(r); },
-        [&](Triangle& t) { t.pos=offset; t.vertices = Shapes::get_vertices(t); },
-        [&](Circle& c) { c.pos=offset; },
+        [&](Rectangle& r) {
+            r.pos=offset;
+            r.vertices = std::move(Shapes::get_vertices(r));
+            r.box = std::move(Shapes::create_AABB(r));
+        },
+        [&](Triangle& t) {
+            t.pos=offset;
+            t.vertices = std::move(Shapes::get_vertices(t));
+            t.box = std::move(Shapes::create_AABB(t));
+        },
+        [&](Circle& c) {
+            c.pos=offset;
+            c.box = std::move(Shapes::create_AABB(c));
+        },
     }, sh);
 }
 void Shapes::move_shape(Shape& sh, const Vec& offset){
     if(offset != Vec{0.0,0.0} and !Shapes::is_static(sh))
     std::visit(overloaded {
-        [&](Rectangle& r) { r.pos+=offset; r.vertices = Shapes::get_vertices(r); },
-        [&](Triangle& t) { t.pos+=offset; t.vertices = Shapes::get_vertices(t); },
-        [&](Circle& c) { c.pos+=offset; },
+        [&](Rectangle& r) {
+            r.pos+=offset;
+            r.vertices = std::move(Shapes::get_vertices(r));
+            r.box = std::move(Shapes::create_AABB(r));
+        },
+        [&](Triangle& t) {
+            t.pos+=offset;
+            t.vertices = std::move(Shapes::get_vertices(t));
+            t.box = std::move(Shapes::create_AABB(t));
+        },
+        [&](Circle& c) {
+            c.pos+=offset;
+            c.box = std::move(Shapes::create_AABB(c));
+        },
     }, sh);
 }
-
-
-
 
 
 void Shapes::update_position(const double& delta) { // s = v * t
     for (auto& shape : shapes){
         if(!Shapes::is_static(shape)){
 
-            Vec velocity{0,0};
-
-            std::visit(overloaded {
-            [&](Rectangle& r) { velocity = r.vel; },
-            [&](Triangle& t) { velocity = t.vel; },
-            [&](Circle& c) { velocity = c.vel; },
-            }, shape);
+            Vec& velocity = Shapes::get_velocity(shape);
 
             Shapes::move_shape(shape, velocity*delta);
         }
@@ -399,224 +364,3 @@ void Shapes::add_force(Shape& shape, const Vec& force) {
         }, shape);
     }
 }
-
-
-
-
-bool Shapes::intersect(const Shape& sh1, const Shape& sh2, double& depth, Vec& normal){
-
-    bool do_they_intersect = false;
-
-    std::visit(overloaded {
-        [&](const Rectangle& r1, const Rectangle& r2) { do_they_intersect = Shapes::intersect_polyXpoly(r1.vertices, r2.vertices, r1.pos, r2.pos, depth, normal); },
-        [&](const Rectangle& r, const Triangle& t) { do_they_intersect = Shapes::intersect_polyXpoly(r.vertices, t.vertices, r.pos, t.pos, depth, normal); },
-        [&](const Rectangle& r, const Circle& c) { do_they_intersect = Shapes::intersect_polyXcirc(r.vertices, c, r.pos, depth, normal); },
-        [&](const Triangle& t, const Rectangle& r) { do_they_intersect = Shapes::intersect_polyXpoly(t.vertices, r.vertices, t.pos, r.pos, depth, normal); },
-        [&](const Triangle& t1, const Triangle& t2) { do_they_intersect = Shapes::intersect_polyXpoly(t1.vertices, t2.vertices, t1.pos, t2.pos, depth, normal); },
-        [&](const Triangle& t, const Circle& c) { do_they_intersect = Shapes::intersect_polyXcirc(t.vertices, c, t.pos, depth, normal); },
-        [&](const Circle& c, const Rectangle& r) { do_they_intersect = Shapes::intersect_polyXcirc(r.vertices, c, r.pos, depth, normal); normal = -normal; }, //divne ja vim, ale bez toho to nefahci
-        [&](const Circle& c, const Triangle& t) { do_they_intersect = Shapes::intersect_polyXcirc(t.vertices, c, t.pos, depth, normal); normal = -normal; }, //divne ja vim, ale bez toho to nefahci
-        [&](const Circle& c1, const Circle& c2) { do_they_intersect = Shapes::intersect_circXcirc(c1, c2, depth, normal); }
-    }, sh1, sh2);
-
-    return do_they_intersect;
-}
-
-bool Shapes::intersect_polyXpoly(const std::vector<Vec>& verts1, const std::vector<Vec>& verts2, const Vec& center1, const Vec& center2, double& depth, Vec& normal){
-
-    depth = std::numeric_limits<double>::infinity();
-    double max1, max2, min1, min2;
-
-    for (auto it = verts1.begin(); it!=verts1.end(); ++it){     //iterate over edges of the first polygon
-
-        Vec va{*it};                                                //take a vertex
-        Vec vb;                                                     
-        if(std::next(it) != verts1.end()) vb = *std::next(it);      //and take its neightbor to get the edge
-        else vb = *verts1.begin();
-        
-        Vec axis = (vb-va).perpendiculate().normalize();            //get the axis we are going to test
-
-        Shapes::project_vertices(verts1, axis, max1, min1);
-        Shapes::project_vertices(verts2, axis, max2, min2);
-
-        if ((min1 >= max2) or (min2 >= max1)) return false;         //if both mins were smaller than maxs, the polygons would intersect
-        
-        double axis_depth = std::min(max2-min1, max1-min2);         //calculate how much they are intersecting
-
-        if (axis_depth<depth){
-            depth = axis_depth;
-            normal = axis;
-        } 
-    }
-
-    for (auto it = verts2.begin(); it!=verts2.end(); ++it){     //iterate over edges of the second polygon
-
-        Vec va{*it};                                                //take a vertex
-        Vec vb;                                                     
-        if(std::next(it) != verts2.end()) vb = *std::next(it);      //and take its neightbor to get the edge
-        else vb = *verts2.begin();
-        
-        Vec axis = (vb-va).perpendiculate().normalize();            //get the axis we are going to test
-
-        Shapes::project_vertices(verts1, axis, max1, min1);
-        Shapes::project_vertices(verts2, axis, max2, min2);
-
-        if ((min1 >= max2) or (min2 >= max1)) return false;         //if both mins were smaller than maxs, the polygons would intersect
-
-        double axis_depth = std::min(max2-min1, max1-min2);         //calculate how much they are intersecting
-
-        if (axis_depth<depth){
-            depth = axis_depth;
-            normal = axis;
-        }
-    }
-
-    if (normal.dot(center1-center2) < 0.0) normal = -normal;    //check the correct orientation of the normal
-    return true;
-}
-
-
-bool Shapes::intersect_polyXcirc(const std::vector<Vec>& verts1, const Circle& c, const Vec& polyg_center, double& depth, Vec& normal){
-
-    depth = std::numeric_limits<double>::infinity();
-    double max1, max2, min1, min2;
-
-    for (auto it = verts1.begin(); it!=verts1.end(); ++it){     //iterate over edges of the second polygon
-
-        Vec va{*it};                                                //take a vertex
-        Vec vb;                                                     
-        if(std::next(it) != verts1.end()) vb = *std::next(it);      //and take its neightbor to get the edge
-        else vb = *verts1.begin();
-
-        Vec axis = (vb-va).perpendiculate().normalize();            //get the axis we are going to test
-
-        Shapes::project_vertices(verts1, axis, max1, min1);
-        Shapes::project_circle(c, axis, max2, min2);
-        
-        if ((min1 >= max2) or (min2 >= max1)) return false;         //if both mins were smaller than maxs, the polygons would intersect
-        
-        double axis_depth = std::min(max2-min1, max1-min2);         //calculate how much they are intersecting
-
-        if (axis_depth<depth){
-            depth = axis_depth;
-            normal = axis;
-        }
-    }
-
-    double closest_vertex_distance = std::numeric_limits<double>::infinity();
-    auto index = verts1.begin();
-    
-    for (auto it = verts1.begin(); it!=verts1.end(); ++it){
-        double distance = c.pos.distance(*it);
-        if (distance < closest_vertex_distance) {
-            closest_vertex_distance = distance;
-            index = it;
-        }
-    }
-
-    Vec axis = (*index-c.pos).normalize();                 
-
-    Shapes::project_vertices(verts1, axis, max1, min1);
-    Shapes::project_circle(c, axis, max2, min2);
-    
-    if ((min1 >= max2) or (min2 >= max1)) return false;        
-
-    double axis_depth = std::min(max2-min1, max1-min2);     
-
-    if (axis_depth<depth){      //jestli se to buguje, tak urcite nekde tu je chyba
-        depth = axis_depth;
-        normal = axis;
-        //if(normal.dot(c.pos-polyg_center) < 0.0) normal = -normal;
-    }
-    if (normal.dot(polyg_center-c.pos) < 0.0) normal = -normal;    //check the correct orientation of the normal
-
-    return true;
-
-}
-bool Shapes::intersect_circXcirc(const Circle& c1, const Circle& c2, double& depth, Vec& normal){
-    double centers_distance = c1.pos.distance(c2.pos);
-    double radii_sum = c1.rad + c2.rad;
-
-    if(centers_distance<radii_sum) {
-        depth = radii_sum - centers_distance;
-        normal = (c1.pos-c2.pos).normalize();
-        return true;
-    }
-    return false;
-}
-
-void Shapes::project_vertices(const std::vector<Vec>& vertices, const Vec& axis, double& max, double& min){
-
-    max = -std::numeric_limits<double>::infinity(); //std::numeric_limits<double>::min(); VRACI NULU!!!!!!
-    min = std::numeric_limits<double>::infinity();
-
-    for (const auto& vertex : vertices){
-        double projected = vertex.dot(axis);
-        if (projected > max) max = projected;
-        if (projected < min) min = projected;
-    }
-}
-
-void Shapes::project_circle(const Circle& c, const Vec& axis, double& max, double& min){
-
-    Vec circle_vector = axis*c.rad;
-    Vec p1 = c.pos + circle_vector;
-    Vec p2 = c.pos - circle_vector;
-
-    min = p1.dot(axis);
-    max = p2.dot(axis);
-    if(min>max) std::swap(min, max);
-}
-
-
-void Shapes::handle_collisions(){
-
-    for (auto it = shapes.begin(); it!=shapes.end(); ++it){
-        for (auto it2 = std::next(it); it2!=shapes.end(); ++it2){
-            double depth = 0.0;
-            Vec normal{0.0, 0.0};
-            if (Shapes::intersect(*it, *it2, depth, normal)){
-
-                Shapes::move_shape(*it, normal * depth/2.0);
-                Shapes::move_shape(*it2, -normal * depth/2.0);  //normaly musi byt minusovane takhle!!!
-
-                Shapes::resolve_collisions(*it, *it2, depth, normal);
-
-                
-            }
-        }
-    }
-}
-
-void Shapes::resolve_collisions(Shape& shape1, Shape& shape2, double& depth, Vec& normal) {
-
-    Vec& vel1 = Shapes::get_velocity(shape1);
-    Vec& vel2 = Shapes::get_velocity(shape2);
-    double inv_m1 = Shapes::get_inverse_mass(shape1);
-    double inv_m2 = Shapes::get_inverse_mass(shape2);
-    double re1 = Shapes::get_restitution(shape1);
-    double re2 = Shapes::get_restitution(shape2);
-
-    Vec relative_vel = vel2 - vel1;
-
-    if(relative_vel.dot(normal) > 0.0) {
-
-        double e = std::min(re1, re2);
-        double j = (-(1.0 + e) * relative_vel.dot(normal)) / (inv_m1 + inv_m2);
-        Vec impulse = normal * j;
-        vel1 -= impulse * inv_m1;
-        vel2 += impulse * inv_m2;
-    }
-}
-
-
-
-
-
-
-   
-
-
-    
-
-   

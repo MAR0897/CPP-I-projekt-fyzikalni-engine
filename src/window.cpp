@@ -1,25 +1,22 @@
 #include "../header/header.h"
 
-void errorCallback(int error, const char* description){
+void cbs::errorCallback(int error, const char* description){
     std::cerr << "Error: " << description << std::endl;
 }
 
-void draw_background(){
-    glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-    bgsh.draw_all_shapes();
-    /*
-    
-    glBegin(GL_LINES);
-    glColor3ub(255, 255, 255);
-    glVertex2f(-1.0f, GROUND);
-    glVertex2f(1.0f, GROUND+0.0001f);
-    glEnd();
-    glBegin(GL_QUADS);
-    glColor3ub(0,0,0);
-    glVertex2f(-1.0f, -1.0f);
-    glVertex2f(1.0f, -1.0f);
-    glVertex2f(1.0f, GROUND);
-    glVertex2f(-1.0f, GROUND);
-    glEnd(); */
+namespace window{
+
+    void draw_background(){
+        glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+        bgsh.draw_all_shapes();
+    }
+
+    Vec get_mouse_coords(GLFWwindow* window){
+        double mouseX, mouseY;
+        glfwGetCursorPos(window, &mouseX, &mouseY);
+        double Xpos = (mouseX / 640.0) - 1.0;
+        double Ypos = 1.0 - (mouseY / 360.0);
+        return Vec{Xpos, Ypos/ST};
+    }
 }

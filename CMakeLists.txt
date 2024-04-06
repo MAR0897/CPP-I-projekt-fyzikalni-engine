@@ -9,6 +9,8 @@ find_package(GLEW REQUIRED)
 # Add include directories
 include_directories(${OPENGL_INCLUDE_DIRS} ${GLFW_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS})
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3") 
+
 # Add executable
 set(SOURCES 
     src/main.cpp 
@@ -17,6 +19,9 @@ set(SOURCES
     src/shapes.cpp 
     src/shape_types.cpp 
     src/vec2D.cpp
+    src/intersecting.cpp
+    src/drawing.cpp
+    src/collisions.cpp
 )
 
 # Add executable

@@ -31,12 +31,27 @@ struct Properties{
     Properties(double&& m, double&& d, Vec&& position, double&& rotation, Vec&& velocity, double&& rv);
 };
 
+//Axis-aligned bounding box
+struct AABB{
+
+    Vec min;
+    Vec max;
+
+    AABB() = default;
+    AABB(const Vec& min, const Vec& max);
+    AABB(Vec&& min, Vec&& max);
+    AABB(const double& minX, const double& maxX, const double& minY, const double& maxY);
+    AABB(double&& minX, double&& maxX, double&& minY, double&& maxY);
+
+};
+
 
 struct Rectangle : public Properties {
 
     Vec size; //size.x = a side lenght; size.y = b side lenght
     std::vector<Vec> vertices; 
     std::vector<Vec> static_vertices; //pro hezke vykresleni nehnutelnych objektu :)
+    AABB box;
 
     Rectangle(const Vec& position, const Vec& s, const Vec& velocity = Vec(0,0), const double& m = 1.0, const double& d = 1.0, 
         const double& r = 0.0, const double& rv = 0.0);
@@ -49,6 +64,7 @@ struct Triangle : public Properties {
     double size;   //distance from center of mass to a vertex (lets just go with rovnostranne trojuhelniky)
     std::vector<Vec> vertices; 
     std::vector<Vec> static_vertices; //pro hezke vykresleni nehnutelnych objektu :)
+    AABB box;
 
     Triangle(const Vec& position, const double& s, const Vec& velocity = Vec(0,0), const double& m = 1.0, const double& d = 1.0,
         const double& r = 0.0, const double& rv = 0.0);
@@ -59,6 +75,7 @@ struct Triangle : public Properties {
 struct Circle : public Properties {
 
     double rad; //radius of the circle
+    AABB box;
 
     Circle(const Vec& position, const double& radius, const Vec& velocity = Vec(0,0), const double& m = 1.0, const double& d = 1.0,
         const double& r = 0.0, const double& rv = 0.0);
@@ -79,6 +96,7 @@ struct Shapes{
     void add_shape(const Shape& sh);
     void add_shape(Shape&& sh);
     void delete_shape(const Vec& mousepos);
+    void delete_out_of_screen();
 
     //get velocity of the shape
     static Vec& get_velocity(Shape& shape);
@@ -88,6 +106,8 @@ struct Shapes{
     static double get_inverse_mass(const Shape& shape);
     //get coefficient of restitution of the shape
     static double get_restitution(const Shape& shape);
+    //get the axis aligned bounding box
+    static AABB get_AABB(const Shape& shape);
 
 
     //whether a certain shape has is_selected value true
@@ -102,8 +122,10 @@ struct Shapes{
     //checks if given coordinates are inside the shape
     static bool is_inside(const Vec& mousepos, const Shape& shape);
 
-    //computes the vertices fro given shape
+    //computes the vertices from given shape
     static std::vector<Vec> get_vertices(const Shape& shape);
+    //create the axis aligned bounding box
+    static AABB create_AABB(const Shape& shape);
     //drawing a single shape
     static void draw(const Shape& shape);
     //drawing a static single shape (black with white outline)
@@ -156,3 +178,30 @@ struct Shapes{
 //shape handle representing all the shapes on the screen
 extern Shapes sh;       //user placed shape handles
 extern Shapes bgsh;     //background shape handles 
+
+
+//---------------------------------------------------------------------------------------------
+
+struct Collisions{
+
+    //shapes the collision belongs to
+    Shape& sh1;
+    Shape& sh2;
+
+    //how much they are intersecting and in which direction they are gonna bounce off
+    double depth;
+    Vec normal;
+
+    //contact points
+    Vec contact1;
+    Vec contact2;
+    int contact_count;
+
+    Collisions(Shape& sh1, Shape& sh2, const double& depth, const Vec& normal, const Vec& contact1, const Vec& contact2, const int& contact_count);
+    Collisions(Shape& sh1, Shape& sh2, double&& depth, Vec&& normal, Vec&& contact1, Vec&& contact2, int&& contact_count);
+    
+
+    static std::vector<Collisions> contacts;
+
+
+};

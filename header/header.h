@@ -6,7 +6,6 @@
 #include "vec2D.h"
 #include "objects.h"
 
-struct Vec;
 
 const double PI = 3.1415926535;
 //Window sizes
@@ -28,25 +27,34 @@ const double STATIC_SHAPES_OUTLINE = 0.01;
 namespace physics {
 
     extern bool gravity;
+
+    void step(const double& delta, const int& iterations);
+}
+
+//Screen management
+namespace window {
+
+    void draw_background();
+    //convert coords from pixels to screen proportion (-1.0 to 1.0 on both x and y)
+    Vec get_mouse_coords(GLFWwindow* window);
+}
+
+
+//GLFW functions and key management
+namespace cbs { //callbacks
+
+    //GLFW error callback
+    void errorCallback(int error, const char* description);
+    
+    //Keys pressing
+    void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+    void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+    void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 }
 
 
 
-//GLFW functions and window management================================================================================================================
-//GLFW error callback
-void errorCallback(int error, const char* description);
 
-void draw_background();
-
-
-//================================================================================================================
-//Keys pressing
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
-void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
-
-//convert coords from pixels to screen proportion (-1.0 to 1.0 on both x and y) (nevim jak se to jmenuje lol)
-Vec get_mouse_coords(GLFWwindow* window);
 
 
 
