@@ -14,7 +14,7 @@ const int HEIGHT = 720;
 
 //screen transform constant, multiply y axis with this to get symetrical things
 /*  IMPORTANT: the whole program works with scaled coordinates (due to window width not necessarily being the same as window height),
-    only on the input (mouse coords) and output (the shapes you can see) the coordinates are scaled to "normal vision"
+    only on the input (mouse coords) and output (the shapes you can see) the coordinates are scaled to "normal vision" (mainly or only the shape sizes are a problem)
     (kdo to sakra vymyslel (ale treba je to vlastne dobre, nevim))
 */
 const double ST = static_cast<double>(WIDTH)/static_cast<double>(HEIGHT); 

@@ -140,6 +140,20 @@ bool Shapes::intersect_circXcirc(const Circle& c1, const Circle& c2, double& dep
     return false;
 }
 
+bool Shapes::intersect_aabbXaabb(const AABB& box1, const AABB& box2){
+
+    if ((box1.max.x <= box2.min.x) or (box2.max.x <= box1.min.x) or
+        (box1.max.y <= box2.min.y) or (box2.max.y <= box1.min.y)) return false;
+
+    return true;
+}
+
+
+
+
+
+//--------------------------------------------------------------------------------------------------------------------------
+
 void Shapes::project_vertices(const std::vector<Vec>& vertices, const Vec& axis, double& max, double& min){
 
     max = -std::numeric_limits<double>::infinity(); //std::numeric_limits<double>::min(); VRACI NULU!!!!!!

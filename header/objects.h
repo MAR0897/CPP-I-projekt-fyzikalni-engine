@@ -14,7 +14,9 @@ struct Properties{
     double mass;
     double inverse_mass;
     double density;
-    double restitution = 0.5; //vzpruživost - koeficient restituce - pružnost, ale co se týče odrazů - od 0 do 1
+    double restitution = 0.5;   //vzpruživost - koeficient restituce - pružnost, ale co se týče odrazů - od 0 do 1
+    double rot_inertia;         //moment setrvačnosti (takový ten hezký tenzor, který tady naštěstí tenzorem nebude)
+    double inverse_rot_inertia;
 
     Vec pos;        //center of mass = teziste
     double rot;     //rotation of an object (0 to 2PI rad)
@@ -53,9 +55,9 @@ struct Rectangle : public Properties {
     std::vector<Vec> static_vertices; //pro hezke vykresleni nehnutelnych objektu :)
     AABB box;
 
-    Rectangle(const Vec& position, const Vec& s, const Vec& velocity = Vec(0,0), const double& m = 1.0, const double& d = 1.0, 
+    Rectangle(const Vec& position, const Vec& s, const Vec& velocity = Vec(0,0), const double& d = 1.0, 
         const double& r = 0.0, const double& rv = 0.0);
-    Rectangle(Vec&& position, Vec&& s, Vec&& velocity = Vec(0,0), double&& m = 1.0, double&& d = 1.0,
+    Rectangle(Vec&& position, Vec&& s, Vec&& velocity = Vec(0,0), double&& d = 1.0,
          double&& r = 0.0, double&& rv = 0.0);
 };
 
@@ -66,9 +68,9 @@ struct Triangle : public Properties {
     std::vector<Vec> static_vertices; //pro hezke vykresleni nehnutelnych objektu :)
     AABB box;
 
-    Triangle(const Vec& position, const double& s, const Vec& velocity = Vec(0,0), const double& m = 1.0, const double& d = 1.0,
+    Triangle(const Vec& position, const double& s, const Vec& velocity = Vec(0,0), const double& d = 1.0,
         const double& r = 0.0, const double& rv = 0.0);
-    Triangle(Vec&& position, double&& s, Vec&& velocity = Vec(0,0), double&& m = 1.0, double&& d = 1.0,
+    Triangle(Vec&& position, double&& s, Vec&& velocity = Vec(0,0), double&& d = 1.0,
         double&& r = 0.0, double&& rv = 0.0);
 };
 
@@ -77,13 +79,15 @@ struct Circle : public Properties {
     double rad; //radius of the circle
     AABB box;
 
-    Circle(const Vec& position, const double& radius, const Vec& velocity = Vec(0,0), const double& m = 1.0, const double& d = 1.0,
+    Circle(const Vec& position, const double& radius, const Vec& velocity = Vec(0,0), const double& d = 1.0,
         const double& r = 0.0, const double& rv = 0.0);
-    Circle(Vec&& position, double&& radius, Vec&& velocity = Vec(0,0), double&& m = 1.0, double&& d = 1.0,
+    Circle(Vec&& position, double&& radius, Vec&& velocity = Vec(0,0), double&& d = 1.0,
         double&& r = 0.0, double&& rv = 0.0);
 };
 
 using Shape = std::variant<Rectangle, Triangle, Circle>;
+
+struct Collisions;
 
 //vector of shapes (shapes handle)
 struct Shapes{
@@ -100,12 +104,18 @@ struct Shapes{
 
     //get velocity of the shape
     static Vec& get_velocity(Shape& shape);
+    //get rotational velocity of the shape
+    static double& get_rot_velocity(Shape& shape);
     //get mass of the shape
     static double get_mass(const Shape& shape);
     //get inverse mass of the shape
     static double get_inverse_mass(const Shape& shape);
+    //get the inverse rotational inertia for impulse calculation
+    static double get_inverse_rot_inertia(const Shape& shape);
     //get coefficient of restitution of the shape
     static double get_restitution(const Shape& shape);
+    //get shape center (position)
+    static Vec get_position(const Shape& shape);
     //get the axis aligned bounding box
     static AABB get_AABB(const Shape& shape);
 
@@ -137,6 +147,8 @@ struct Shapes{
     static void resize_shape(Shape& sh, const double& offset);
         //change the mass due to resizing
         static void change_mass(Shape& sh);
+        //change the rotational inertia due to resizing
+        static void change_rot_inertia(Shape& sh);
     //rotate shape
     static void rotate_shape(Shape& sh, const double& angle);
     //moves the shape by following the cursor
@@ -146,7 +158,7 @@ struct Shapes{
 
     //update physical properties (position, velocity) by delta time
     //update position with s = v * t
-    void update_position(const double& delta);
+    void update_position_and_rotation(const double& delta);
     //update velocity with v = F/m * t
     void update_by_force(const double& delta);
     //update velocity with v = a * t (mainly or solely used for gravitation)
@@ -163,6 +175,8 @@ struct Shapes{
         static bool intersect_polyXcirc(const std::vector<Vec>& verts1, const Circle& c, const Vec& polyg_center, double& depth, Vec& normal);
         //Circle x circle intersection check
         static bool intersect_circXcirc(const Circle& c1, const Circle& c2, double& depth, Vec& normal);
+        //Intersect check for AABBs of 2 shapes (easier to calculate than the intersecting functions above)
+        static bool intersect_aabbXaabb(const AABB& aabb1, const AABB& aabb2);
         //Projecting vertices of both shapes to find if they intersect (Separating axis theorem)
         static void project_vertices(const std::vector<Vec>& vertices, const Vec& axis, double& max, double& min);
         //converting circle into two vectices to allow projecting then onto the separating axis
@@ -171,6 +185,9 @@ struct Shapes{
     void handle_collisions();
     //advanced formula for resolving collisions
     static void resolve_collisions(Shape& shape1, Shape& shape2, double& depth, Vec& normal);
+    //advanced formula for resolving collisions with rotation
+    static void resolve_collisionsR(Collisions& contact);
+    
 
 };
 
@@ -203,5 +220,16 @@ struct Collisions{
 
     static std::vector<Collisions> contacts;
 
+    //finds where do the colliding shapes contact
+    static void find_contact_points(const Shape& sh1, const Shape& sh2, Vec& c_point1, Vec& c_point2, int& c_points_count);
+
+        //find contact points for two intersecting circles
+        static void fcp_circXcirc(const Circle& c1, const Circle& c2, Vec& c_point1, int& c_points_count);
+        //find contact points for a polygon and a circle
+        static void fcp_polyXcirc(const Circle& c, const std::vector<Vec>& verts, Vec& c_point1, int& c_points_count);
+        //find contact points for two intersecting polygons
+        static void fcp_polyXpoly(const std::vector<Vec>& verts1, const std::vector<Vec>& verts2, Vec& c_point1, Vec& c_point2, int& c_points_count);
+        //geometrical distance from a single point to a line (segment)
+        static double point_segment_distance(const Vec& p, const Vec& va, const Vec& vb, Vec& contact_point);
 
 };

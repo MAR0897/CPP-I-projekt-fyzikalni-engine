@@ -25,7 +25,7 @@ namespace physics {
 
             if(gravity) sh.update_by_acceleration(delta_time, Vec{0.0, -0.981}); //gravity
             sh.update_by_force(delta_time);
-            sh.update_position(delta_time);
+            sh.update_position_and_rotation(delta_time);
             sh.handle_collisions();
 
         }
@@ -88,7 +88,7 @@ int main() {
         //std::cout<<Collisions::contacts.size()<<std::endl;
 
 
-
+        
 
 
 

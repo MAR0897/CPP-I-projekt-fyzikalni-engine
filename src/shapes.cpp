@@ -28,6 +28,13 @@ Vec& Shapes::get_velocity(Shape& shape) {
         [&](Circle& c) -> Vec& { return c.vel; },
     }, shape);
 }
+double& Shapes::get_rot_velocity(Shape& shape) {
+    return std::visit(overloaded {
+        [&](Rectangle& r) -> double& { return r.rotvel; },
+        [&](Triangle& t) -> double& { return t.rotvel; },
+        [&](Circle& c) -> double& { return c.rotvel; },
+    }, shape);
+}
 double Shapes::get_mass(const Shape& shape) {
     return std::visit(overloaded {
         [&](const Rectangle& r) -> double { return r.mass; },
@@ -42,11 +49,25 @@ double Shapes::get_inverse_mass(const Shape& shape) {
         [&](const Circle& c) -> double { return c.inverse_mass; },
     }, shape);
 }
+double Shapes::get_inverse_rot_inertia(const Shape& shape) {
+    return std::visit(overloaded {
+        [&](const Rectangle& r) -> double { return r.inverse_rot_inertia; },
+        [&](const Triangle& t) -> double { return t.inverse_rot_inertia; },
+        [&](const Circle& c) -> double { return c.inverse_rot_inertia;},
+    }, shape);
+}
 double Shapes::get_restitution(const Shape& shape) {
     return std::visit(overloaded {
         [&](const Rectangle& r) -> double { return r.restitution; },
         [&](const Triangle& t) -> double { return t.restitution; },
         [&](const Circle& c) -> double { return c.restitution; },
+    }, shape);
+}
+Vec Shapes::get_position(const Shape& shape) {
+    return std::visit(overloaded {
+        [&](const Rectangle& r) -> Vec { return r.pos; },
+        [&](const Triangle& t) -> Vec { return t.pos; },
+        [&](const Circle& c) -> Vec { return c.pos; },
     }, shape);
 }
 AABB Shapes::get_AABB(const Shape& shape){
@@ -89,14 +110,16 @@ void Shapes::toggle_static(Shape& shape) {
                 r.is_selected = false;
                 r.is_static = true;
                 r.size -= STATIC_SHAPES_OUTLINE;
-                r.static_vertices = std::move(Shapes::get_vertices(r)); 
+                r.static_vertices = Shapes::get_vertices(r); 
                 r.size += STATIC_SHAPES_OUTLINE;
                 r.vel = Vec{0.0,0.0};
                 r.inverse_mass = 0.0;
+                r.inverse_rot_inertia = 0.0;
             }
             else {
                 r.is_static = false;
                 r.inverse_mass = 1.0/r.mass;
+                r.inverse_rot_inertia = 1.0/r.rot_inertia;
             }
         },
         [](Triangle& t) { 
@@ -104,14 +127,16 @@ void Shapes::toggle_static(Shape& shape) {
                 t.is_selected = false;
                 t.is_static = true;
                 t.size -= STATIC_SHAPES_OUTLINE;
-                t.static_vertices = std::move(Shapes::get_vertices(t)); 
+                t.static_vertices = Shapes::get_vertices(t); 
                 t.size += STATIC_SHAPES_OUTLINE;
                 t.vel = Vec{0.0,0.0};
                 t.inverse_mass = 0.0;
+                t.inverse_rot_inertia = 0.0;
             }
             else {
                 t.is_static = false;
                 t.inverse_mass = 1.0/t.mass;
+                t.inverse_rot_inertia = 1.0/t.rot_inertia;
             }
         },
         [](Circle& c) { 
@@ -120,10 +145,12 @@ void Shapes::toggle_static(Shape& shape) {
                 c.is_static = true;
                 c.vel = Vec{0.0,0.0};
                 c.inverse_mass = 0.0;
+                c.inverse_rot_inertia = 0.0;
             }
             else {
                 c.is_static = false;
                 c.inverse_mass = 1.0/c.mass;
+                c.inverse_rot_inertia = 1.0/c.rot_inertia;
             }
         },
     }, shape);
@@ -234,24 +261,27 @@ void Shapes::resize_shape(Shape& sh, const double& offset){
         [&](Rectangle& r) { 
             if (r.size.norm() > 0.05 or offset > 0.0) {
                 r.size+=offset;
-                r.vertices = std::move(Shapes::get_vertices(r)); 
-                r.box = std::move(Shapes::create_AABB(r));
+                r.vertices = Shapes::get_vertices(r); 
+                r.box = Shapes::create_AABB(r);
                 Shapes::change_mass(sh);
+                Shapes::change_rot_inertia(sh);
             }
         },
         [&](Triangle& t) { 
             if (t.size > 0.01 or offset > 0.0) {
                 t.size+=offset;
-                t.vertices = std::move(Shapes::get_vertices(t));
-                t.box = std::move(Shapes::create_AABB(t));
+                t.vertices = Shapes::get_vertices(t);
+                t.box = Shapes::create_AABB(t);
                 Shapes::change_mass(sh);
+                Shapes::change_rot_inertia(sh);
             }
         },
         [&](Circle& c) { 
             if (c.rad > 0.02 or offset > 0.0) {
                 c.rad+=offset;
-                c.box = std::move(Shapes::create_AABB(c));
+                c.box = Shapes::create_AABB(c);
                 Shapes::change_mass(sh);
+                Shapes::change_rot_inertia(sh);
             }
         },
     }, sh);
@@ -263,19 +293,26 @@ void Shapes::change_mass(Shape& sh){
         [&](Circle& c) { c.mass = PI*c.rad*c.rad*c.density; c.inverse_mass = 1.0/c.mass;},
     }, sh);
 }
+void Shapes::change_rot_inertia(Shape& sh){
+    std::visit(overloaded {
+        [&](Rectangle& r) { r.rot_inertia = (1.0/12.0)*r.mass*r.size.norm2(); },    // J = 1/12 * m * (a^2+b^2)
+        [&](Triangle& t) { t.rot_inertia = (1.0/12.0)*t.mass*t.size*std::pow(3, 0.5); }, // J = 1/12 * m * a (pro rovnostranny trojuhelnik)
+        [&](Circle& c) { c.rot_inertia = 0.5*c.mass*c.rad*c.rad; }, // J = 1/2 * m * r^2
+    }, sh);
+}
 
 void Shapes::rotate_shape(Shape& sh, const double& angle){
     if(angle!=0.0){
         std::visit(overloaded {
             [&](Rectangle& r) { 
                 r.rot+=angle;
-                r.vertices = std::move(Shapes::get_vertices(r));
-                r.box = std::move(Shapes::create_AABB(r));
+                r.vertices = Shapes::get_vertices(r);
+                r.box = Shapes::create_AABB(r);
             },
             [&](Triangle& t) { 
                 t.rot+=angle;
-                t.vertices = std::move(Shapes::get_vertices(t));
-                t.box = std::move(Shapes::create_AABB(t));
+                t.vertices = Shapes::get_vertices(t);
+                t.box = Shapes::create_AABB(t);
             },
             [&](Circle& c) { c.rot+=angle; },
         }, sh);
@@ -285,17 +322,17 @@ void Shapes::move_shape_to(Shape& sh, const Vec& offset){
     std::visit(overloaded {
         [&](Rectangle& r) {
             r.pos=offset;
-            r.vertices = std::move(Shapes::get_vertices(r));
-            r.box = std::move(Shapes::create_AABB(r));
+            r.vertices = Shapes::get_vertices(r);
+            r.box = Shapes::create_AABB(r);
         },
         [&](Triangle& t) {
             t.pos=offset;
-            t.vertices = std::move(Shapes::get_vertices(t));
-            t.box = std::move(Shapes::create_AABB(t));
+            t.vertices = Shapes::get_vertices(t);
+            t.box = Shapes::create_AABB(t);
         },
         [&](Circle& c) {
             c.pos=offset;
-            c.box = std::move(Shapes::create_AABB(c));
+            c.box = Shapes::create_AABB(c);
         },
     }, sh);
 }
@@ -304,29 +341,33 @@ void Shapes::move_shape(Shape& sh, const Vec& offset){
     std::visit(overloaded {
         [&](Rectangle& r) {
             r.pos+=offset;
-            r.vertices = std::move(Shapes::get_vertices(r));
-            r.box = std::move(Shapes::create_AABB(r));
+            r.vertices = Shapes::get_vertices(r);
+            r.box = Shapes::create_AABB(r);
         },
         [&](Triangle& t) {
             t.pos+=offset;
-            t.vertices = std::move(Shapes::get_vertices(t));
-            t.box = std::move(Shapes::create_AABB(t));
+            t.vertices = Shapes::get_vertices(t);
+            t.box = Shapes::create_AABB(t);
         },
         [&](Circle& c) {
             c.pos+=offset;
-            c.box = std::move(Shapes::create_AABB(c));
+            c.box = Shapes::create_AABB(c);
         },
     }, sh);
 }
 
 
-void Shapes::update_position(const double& delta) { // s = v * t
+void Shapes::update_position_and_rotation(const double& delta) { // s = v * t (and phi = omega * T)
     for (auto& shape : shapes){
         if(!Shapes::is_static(shape)){
 
             Vec& velocity = Shapes::get_velocity(shape);
 
             Shapes::move_shape(shape, velocity*delta);
+
+            double& rot_velocity = Shapes::get_rot_velocity(shape);
+
+            Shapes::rotate_shape(shape, rot_velocity*delta);
         }
     }
 }
