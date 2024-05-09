@@ -7,7 +7,7 @@ void cbs::errorCallback(int error, const char* description){
 namespace window{
 
     void draw_background(){
-        glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+        glClearColor(0.6f, 0.8f, 0.87f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         bgsh.draw_all_shapes();
     }
@@ -18,5 +18,11 @@ namespace window{
         double Xpos = (mouseX / 640.0) - 1.0;
         double Ypos = 1.0 - (mouseY / 360.0);
         return Vec{Xpos, Ypos/ST};
+    }
+
+    void render_text(double&& x, double&& y, void* font, std::string&& str) {
+        glColor3ub(0,0,0);
+        glRasterPos2d(x, y);
+        for (auto ch : str) glutBitmapCharacter(font, ch);
     }
 }

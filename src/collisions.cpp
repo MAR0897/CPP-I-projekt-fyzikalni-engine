@@ -4,81 +4,58 @@
 
 void Shapes::handle_collisions(){
 
-    for (auto it = shapes.begin(); it!=shapes.end(); ++it){
-        for (auto it2 = std::next(it); it2!=shapes.end(); ++it2){
-            double depth = 0.0;
-            Vec normal{0.0, 0.0};
+    for (auto it = shapes.begin(); it!=shapes.end(); ++it){                                     //loop through the shapes vector
+        for (auto it2 = std::next(it); it2!=shapes.end(); ++it2){                                   //get a pair of shapes through second loop
+            double depth = 0.0;                                                                         //initialize zero value depth
+            Vec normal{0.0, 0.0};                                                                       //initialize zero value normal
 
-            if (Shapes::is_static(*it) and Shapes::is_static(*it2)) continue;
+            if (Shapes::is_static(*it) and Shapes::is_static(*it2)) continue;                           //if both shapes are static, skip them
 
-            if (!Shapes::intersect_aabbXaabb(Shapes::get_AABB(*it), Shapes::get_AABB(*it2))) continue;
+            if (!Shapes::intersect_aabbXaabb(Shapes::get_AABB(*it), Shapes::get_AABB(*it2))) continue;  //if shapes' AABBs dont intersect, skip them
 
-            if (Shapes::intersect(*it, *it2, depth, normal)){
+            if (Shapes::intersect(*it, *it2, depth, normal)){                                           //if the shapes do intersect:
 
-                if(Shapes::is_static(*it)){
-                    Shapes::move_shape(*it2, -normal * depth);
-                }
-                else if(Shapes::is_static(*it2)){
-                    Shapes::move_shape(*it, normal * depth);
-                }
-                else {
-                    Shapes::move_shape(*it, normal * depth/2.0);
-                    Shapes::move_shape(*it2, -normal * depth/2.0);  //normaly musi byt minusovane takhle!!!
+                if(Shapes::is_static(*it)){                                                                 //if first shape is static:
+                    Shapes::move_shape(*it2, -normal * depth);                                                  //move only the second by a full depth, to the normal direction
+                }   
+                else if(Shapes::is_static(*it2)){                                                           //if second shape is static:
+                    Shapes::move_shape(*it, normal * depth);                                                    //move only the first by full depth, to the normal direction
+                }           
+                else {                                                                                      //if none of the shapes are static:
+                    Shapes::move_shape(*it, normal * depth/2.0);                                                //move both shapes by half depth, to the normal direction
+                    Shapes::move_shape(*it2, -normal * depth/2.0);                                              //normaly musi byt minusovane takhle!!!
                 }
                 
-                Vec c_point1 = {0.0, 0.0};
+                Vec c_point1 = {0.0, 0.0};                                                                  //initialize contact points (max 2 are used)
                 Vec c_point2 = {0.0, 0.0};
                 int c_points_count = 0;
 
-                Collisions::find_contact_points(*it, *it2, c_point1, c_point2, c_points_count);
+                Collisions::find_contact_points(*it, *it2, c_point1, c_point2, c_points_count);             //find the contact points and store them to resolve them later
 
                 Collisions::contacts.emplace_back(Collisions{*it, *it2, depth, normal, c_point1, c_point2, c_points_count});
             }
         }
     }
 
-    for (auto& contact : Collisions::contacts){
-        Shapes::resolve_collisionsR(contact);
-    }
-    Collisions::contacts.clear();
+    for (auto& contact : Collisions::contacts) Shapes::resolve_collisions(contact);            //resolve colisions based on calculated contact points
+    Collisions::contacts.clear();                                                               //delete all contact points for this one physics simulation iteration
 
 }
 
-void Shapes::resolve_collisions(Shape& shape1, Shape& shape2, double& depth, Vec& normal) {
+void Shapes::resolve_collisions(Collisions& c){
 
-    Vec& vel1 = Shapes::get_velocity(shape1);
-    Vec& vel2 = Shapes::get_velocity(shape2);
-    double inv_m1 = Shapes::get_inverse_mass(shape1);
-    double inv_m2 = Shapes::get_inverse_mass(shape2);
-    double re1 = Shapes::get_restitution(shape1);
-    double re2 = Shapes::get_restitution(shape2);
-
-    Vec relative_vel = vel2 - vel1;
-
-    if(relative_vel.dot(normal) < 0.0) return;
-    
-    double e = std::min(re1, re2);
-    double j = (-(1.0 + e) * relative_vel.dot(normal)) / (inv_m1 + inv_m2);
-    Vec impulse = normal * j;
-
-    vel1 -= impulse * inv_m1;
-    vel2 += impulse * inv_m2;
-}
-
-void Shapes::resolve_collisionsR(Collisions& c){
-
-    Vec& vel1 = Shapes::get_velocity(c.sh1);
-    Vec& vel2 = Shapes::get_velocity(c.sh2);
-    Vec pos1 = Shapes::get_position(c.sh1);
-    Vec pos2 = Shapes::get_position(c.sh2);
-    double inv_m1 = Shapes::get_inverse_mass(c.sh1);
-    double inv_m2 = Shapes::get_inverse_mass(c.sh2);
-    double inv_ri1 = Shapes::get_inverse_rot_inertia(c.sh1);
-    double inv_ri2 = Shapes::get_inverse_rot_inertia(c.sh2);
-    double re1 = Shapes::get_restitution(c.sh1);
-    double re2 = Shapes::get_restitution(c.sh2);
-    double& rv1 = Shapes::get_rot_velocity(c.sh1);
-    double& rv2 = Shapes::get_rot_velocity(c.sh2);
+    Vec& vel1 = get_velocity(c.sh1);
+    Vec& vel2 = get_velocity(c.sh2);
+    Vec pos1 = get_position(c.sh1);
+    Vec pos2 = get_position(c.sh2);
+    double inv_m1 = get_inverse_mass(c.sh1);
+    double inv_m2 = get_inverse_mass(c.sh2);
+    double inv_ri1 = get_inverse_rot_inertia(c.sh1);
+    double inv_ri2 = get_inverse_rot_inertia(c.sh2);
+    double re1 = get_restitution(c.sh1);
+    double re2 = get_restitution(c.sh2);
+    double& rv1 = get_rot_velocity(c.sh1);
+    double& rv2 = get_rot_velocity(c.sh2);
 
     double e = std::min(re1, re2);
 
@@ -95,11 +72,11 @@ void Shapes::resolve_collisionsR(Collisions& c){
         dis1[i] = distance1;
         dis2[i] = distance2;
 
-        Vec r1 = distance1.perpendiculate();
-        Vec r2 = distance2.perpendiculate();
+        Vec r1 = distance1.to_normal();
+        Vec r2 = distance2.to_normal();
 
         Vec angular_vel1 = r1 * rv1;
-        Vec angular_vel2 = r1 * rv2;
+        Vec angular_vel2 = r2 * rv2;
 
         Vec relative_vel = (vel2 + angular_vel2) - (vel1 + angular_vel1);
 
@@ -123,39 +100,37 @@ void Shapes::resolve_collisionsR(Collisions& c){
         vel2 += impulses[i] * inv_m2;
         rv1 += -dis1[i].cross(impulses[i]) * inv_ri1;
         rv2 += dis2[i].cross(impulses[i]) * inv_ri2;
-
     }
-
-
-
 }
-
-
 
 
 
 //------------------------------------------------------------------------------------------------------------------------------------
 
 void Collisions::find_contact_points(const Shape& sh1, const Shape& sh2, Vec& c_point1, Vec& c_point2, int& c_points_count){
+    std::visit([&](auto& s1, auto& s2) { m_find_contact_points(s1, s2, c_point1, c_point2, c_points_count); }, sh1, sh2);
+}
 
-    std::visit(overloaded {
-        [&](const Rectangle& r1, const Rectangle& r2) { Collisions::fcp_polyXpoly(r1.vertices, r2.vertices, c_point1, c_point2, c_points_count); },
-        [&](const Rectangle& r, const Triangle& t) { Collisions::fcp_polyXpoly(r.vertices, t.vertices, c_point1, c_point2, c_points_count); },
-        [&](const Rectangle& r, const Circle& c) { Collisions::fcp_polyXcirc(c, r.vertices, c_point1, c_points_count); },
-        [&](const Triangle& t, const Rectangle& r) { Collisions::fcp_polyXpoly(t.vertices, r.vertices, c_point1, c_point2, c_points_count); },
-        [&](const Triangle& t1, const Triangle& t2) { Collisions::fcp_polyXpoly(t1.vertices, t2.vertices, c_point1, c_point2, c_points_count); },
-        [&](const Triangle& t, const Circle& c) { Collisions::fcp_polyXcirc(c, t.vertices, c_point1, c_points_count); },
-        [&](const Circle& c, const Rectangle& r) { Collisions::fcp_polyXcirc(c, r.vertices, c_point1, c_points_count); },
-        [&](const Circle& c, const Triangle& t) { Collisions::fcp_polyXcirc(c, t.vertices, c_point1, c_points_count); },
-        [&](const Circle& c1, const Circle& c2) { Collisions::fcp_circXcirc(c1, c2, c_point1, c_points_count); }
-    }, sh1, sh2);
+template<typename S1, typename S2>
+void Collisions::m_find_contact_points(const S1& s1, const S2& s2, Vec& c_point1, Vec& c_point2, int& c_points_count) {
+
+    //if both shapes are circles
+    if constexpr (std::is_same_v<S1, Circle> and std::is_same_v<S2, Circle>) fcp_circXcirc(s1, s2, c_point1, c_points_count); 
+    //if none of the shapes are circles
+    else if constexpr ((std::is_same_v<S1, Triangle> or std::is_same_v<S1, Rectangle>) and (std::is_same_v<S2, Triangle> or std::is_same_v<S2, Rectangle>))
+        fcp_polyXpoly(s1.vertices, s2.vertices, c_point1, c_point2, c_points_count); 
+    //if exactly one shape is circle
+    else {
+        if constexpr (std::is_same_v<S1, Circle>) fcp_polyXcirc(s1, s2.vertices, c_point1, c_points_count);
+        else if constexpr (std::is_same_v<S2, Circle>)  fcp_polyXcirc(s2, s1.vertices, c_point1, c_points_count); 
+    }
 }
 
 void Collisions::fcp_circXcirc(const Circle& c1, const Circle& c2, Vec& c_point1, int& c_points_count){
 
     //if the two circles intersect, they have a single contact point, which can be found easily like this:
 
-    Vec direction = (c2.pos-c1.pos).normalize();
+    Vec direction = (c2.pos-c1.pos).to_unit();
     c_point1 = c1.pos + direction*c1.rad;
     c_points_count = 1;
 }
@@ -193,6 +168,11 @@ void Collisions::fcp_polyXpoly(const std::vector<Vec>& verts1, const std::vector
     double min_distance = std::numeric_limits<double>::infinity();
     Vec contact;
     
+    m_fcp_polyXpoly(verts1, verts2, c_point1, c_point2, c_points_count, contact, min_distance);
+    m_fcp_polyXpoly(verts2, verts1, c_point1, c_point2, c_points_count, contact, min_distance);
+}
+
+void Collisions::m_fcp_polyXpoly(const std::vector<Vec>& verts1, const std::vector<Vec>& verts2, Vec& c_point1, Vec& c_point2, int& c_points_count, Vec& contact, double& min_distance) {
 
     for (auto it = verts1.begin(); it!=verts1.end(); ++it){
         for (auto it2 = verts2.begin(); it2!=verts2.end(); ++it2){
@@ -217,33 +197,10 @@ void Collisions::fcp_polyXpoly(const std::vector<Vec>& verts1, const std::vector
             }
         }
     }
-
-    for (auto it = verts2.begin(); it!=verts2.end(); ++it){
-        for (auto it2 = verts1.begin(); it2!=verts1.end(); ++it2){
-
-            Vec va{*it2};                                               
-            Vec vb;                                                     
-            if(std::next(it2) != verts1.end()) vb = *std::next(it2);     
-            else vb = *verts1.begin();
-
-            double distance = Collisions::point_segment_distance(*it, va, vb, contact);
-
-            if (Vec::nearly_equal(distance, min_distance)) {
-                if (!contact.nearly_equal(c_point1)){
-                    c_point2 = contact;
-                    c_points_count = 2;
-                }
-            }
-            else if (distance<min_distance) {
-                min_distance = distance;
-                c_point1 = contact;
-                c_points_count = 1;
-            }
-        }
-    }
 }
 
-
+//------------------------------------------------------------------------------------------------------------------
+//helper function for finding contact points
 
 double Collisions::point_segment_distance(const Vec& p, const Vec& va, const Vec& vb, Vec& contact_point){
 
@@ -262,6 +219,7 @@ double Collisions::point_segment_distance(const Vec& p, const Vec& va, const Vec
 
 
 //================================================================================================================
+//Collision struct constrcutors
 
 Collisions::Collisions(Shape& sh1, Shape& sh2, const double& depth, const Vec& normal, const Vec& contact1, const Vec& contact2, const int& contact_count) :
     sh1(sh1), sh2(sh2), depth(depth), normal(normal), contact_count(contact_count)

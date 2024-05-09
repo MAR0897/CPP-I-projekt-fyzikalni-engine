@@ -35,8 +35,12 @@ namespace physics {
 namespace window {
 
     void draw_background();
+
     //convert coords from pixels to screen proportion (-1.0 to 1.0 on both x and y)
     Vec get_mouse_coords(GLFWwindow* window);
+
+    //function for text rendering
+    void render_text(double&& x, double&& y, void *font, std::string&& str);
 }
 
 

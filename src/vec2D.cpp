@@ -40,7 +40,7 @@ double Vec::norm() const { return std::pow(x*x+y*y, 0.5); }
 double Vec::norm2() const { return x*x+y*y; }
 double Vec::distance(const Vec& other) const { return std::pow((x-other.x)*(x-other.x)+(y-other.y)*(y-other.y), 0.5); }
 double Vec::distance2(const Vec& other) const { return (x-other.x)*(x-other.x)+(y-other.y)*(y-other.y); }
-Vec& Vec::normalize() { *this/=this->norm(); return *this; }
+Vec& Vec::to_unit() { *this/=this->norm(); return *this; }
 double Vec::dot(const Vec& other) const { return x*other.x+y*other.y; }
 double Vec::cross(const Vec& other) const { return x*other.y-y*other.x; }
 
@@ -51,7 +51,7 @@ Vec& Vec::rotation_transform(const double& angle) {
     return *this;
 }
 
-Vec& Vec::perpendiculate(){
+Vec& Vec::to_normal(){
     std::swap(x, y);
     x = -x;
     return *this;

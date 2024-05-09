@@ -128,6 +128,9 @@ struct Shapes{
     static bool is_static(const Shape& shape);
     //set the shape as static
     static void toggle_static(Shape& shape);
+        //inner helper function to avoid copying code
+        template<typename S>
+        static void m_toggle_static(S& s);
 
     //checks if given coordinates are inside the shape
     static bool is_inside(const Vec& mousepos, const Shape& shape);
@@ -136,25 +139,49 @@ struct Shapes{
     static std::vector<Vec> get_vertices(const Shape& shape);
     //create the axis aligned bounding box
     static AABB create_AABB(const Shape& shape);
+        //inner helper function to avoid copying code
+        template<typename S>
+        static AABB m_create_AABB(const S& s);
     //drawing a single shape
     static void draw(const Shape& shape);
     //drawing a static single shape (black with white outline)
     static void draw_static(const Shape& shape);
     //drawing all the shapes in the "shapes" vector
     void draw_all_shapes() const;
+    //renderes some statistics in text on the screen of only 1 selected shape!! 
+    //(if more are selected, takes only the first selected in the vector of shapes)
+    void render_statistics(double&& x, double&& y, void* font);
 
     //changes the size
     static void resize_shape(Shape& sh, const double& offset);
+        //inner helper function to avoid copying code
+        template<typename S, typename doubleORvec>
+        static void m_resize_shape(S& s, const double& offset, doubleORvec& to_resize);
         //change the mass due to resizing
-        static void change_mass(Shape& sh);
+        template<typename S>
+        static void change_mass(S& s);
         //change the rotational inertia due to resizing
-        static void change_rot_inertia(Shape& sh);
+        template<typename S>
+        static void change_rot_inertia(S& s);
+
     //rotate shape
     static void rotate_shape(Shape& sh, const double& angle);
+        //inner helper function
+        template<typename S>
+        static void m_rotate_shape(S& s, const double& angle, auto operation); 
+    //change the rotational velocity
+    static void add_spin(Shape& sh, const double& speed);
+
     //moves the shape by following the cursor
     static void move_shape_to(Shape& sh, const Vec& offset);
     //moves the shape by some value
     static void move_shape(Shape& sh, const Vec& offset);
+        //move shape by some offset or move shape to by some offset depending on the operation
+        template<typename S>
+        static void m_move_shape(S& s, const Vec& offset, auto operation);
+
+    //for single shape
+    static void add_force(Shape& shape, const Vec& force);
 
     //update physical properties (position, velocity) by delta time
     //update position with s = v * t
@@ -164,13 +191,16 @@ struct Shapes{
     //update velocity with v = a * t (mainly or solely used for gravitation)
     void update_by_acceleration(const double& delta, const Vec& acceleration);
 
-    //for single shape
-    static void add_force(Shape& shape, const Vec& force);
 
     //whether two shapes intersect
     static bool intersect(const Shape& sh1, const Shape& sh2, double& depth, Vec& normal);
+        //inner intersect function for executing the correct intersect variant (polyXpoly, polyXcirc, circXcirc)
+        template<typename S1, typename S2>
+        static bool m_intersect(const S1& s1, const S2& s2, double& depth, Vec& normal);
         //Polygon x polygon intersection check
         static bool intersect_polyXpoly(const std::vector<Vec>& verts1, const std::vector<Vec>& verts2, const Vec& center1, const Vec& center2, double& depth, Vec& normal);
+            //inner helper function
+            static bool m_intersect_polyXpoly(const std::vector<Vec>& verts1, const std::vector<Vec>& verts2, double& depth, Vec& normal, double& max1, double& max2, double& min1, double& min2);
         //Polygon x circle intersection check
         static bool intersect_polyXcirc(const std::vector<Vec>& verts1, const Circle& c, const Vec& polyg_center, double& depth, Vec& normal);
         //Circle x circle intersection check
@@ -183,10 +213,8 @@ struct Shapes{
         static void project_circle(const Circle& c, const Vec& axis, double& max, double& min);
     //checks if any shapes are intersecting and resolve that intersection by applying resolve_collision()
     void handle_collisions();
-    //advanced formula for resolving collisions
-    static void resolve_collisions(Shape& shape1, Shape& shape2, double& depth, Vec& normal);
     //advanced formula for resolving collisions with rotation
-    static void resolve_collisionsR(Collisions& contact);
+    static void resolve_collisions(Collisions& contact);
     
 
 };
@@ -222,6 +250,8 @@ struct Collisions{
 
     //finds where do the colliding shapes contact
     static void find_contact_points(const Shape& sh1, const Shape& sh2, Vec& c_point1, Vec& c_point2, int& c_points_count);
+        template<typename S1, typename S2>
+        static void m_find_contact_points(const S1& s1, const S2& s2, Vec& c_point1, Vec& c_points2, int& c_points_count);
 
         //find contact points for two intersecting circles
         static void fcp_circXcirc(const Circle& c1, const Circle& c2, Vec& c_point1, int& c_points_count);
@@ -229,6 +259,8 @@ struct Collisions{
         static void fcp_polyXcirc(const Circle& c, const std::vector<Vec>& verts, Vec& c_point1, int& c_points_count);
         //find contact points for two intersecting polygons
         static void fcp_polyXpoly(const std::vector<Vec>& verts1, const std::vector<Vec>& verts2, Vec& c_point1, Vec& c_point2, int& c_points_count);
+            //inner helper function for finding contact points for two polygons
+            static void m_fcp_polyXpoly(const std::vector<Vec>& verts1, const std::vector<Vec>& verts2, Vec& c_point1, Vec& c_point2, int& c_points_count, Vec& contact, double& min_distance);
         //geometrical distance from a single point to a line (segment)
         static double point_segment_distance(const Vec& p, const Vec& va, const Vec& vb, Vec& contact_point);
 

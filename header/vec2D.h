@@ -29,7 +29,7 @@ struct Vec{
     bool operator!=(const Vec& other) const;
     bool nearly_equal(const Vec& other) const;
     static bool nearly_equal(const double& a, const double& b);
-    static constexpr double nearly_equal_threshold = 0.00001;
+    static constexpr double nearly_equal_threshold = 0.000000001;
     friend Vec operator+(const Vec& v1, const Vec& v2);
     friend Vec operator-(const Vec& v1, const Vec& v2);
     friend Vec operator*(const Vec& v1, const Vec& v2);
@@ -44,10 +44,10 @@ struct Vec{
     double norm2() const;                                   //Euclidean norm squared = lenght squared for comparisons
     double distance(const Vec& other) const;                //distance between 2 points
     double distance2(const Vec& other) const;               //distance between 2 points squared for comparisons
-    Vec& normalize();                                       //normalize, so that euclidean norm is 1
+    Vec& to_unit();                                         //to unit vector, so that euclidean norm is 1
     double dot(const Vec& other) const;                     //dot product
     double cross(const Vec& other) const;                   //will be always perpendicular to the screen, we just need the magnitude
     Vec& rotation_transform(const double& angle);           //transform with a rotation matrix to rotate things
-    Vec& perpendiculate();  // :)                           //transforms vector into a kolmy vector (swaps x and y and changes x into -x)
+    Vec& to_normal();                                       //transforms vector into a kolmy vector (swaps x and y and changes x into -x)
 
 };

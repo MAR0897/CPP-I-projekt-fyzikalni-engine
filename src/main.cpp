@@ -33,10 +33,11 @@ namespace physics {
 }
 
 
-int main() {
+int main(int argc, char **argv) {
+
+    glutInit(&argc, argv);
 
 //Initialize GLFW window, error and stuff
-
     //initialize GLFW
     if (!glfwInit()) { std::cerr << "Failed to initialize GLFW" << std::endl; return -1; }
     //set error callback
@@ -75,23 +76,15 @@ int main() {
     while (!glfwWindowShouldClose(window)) {
         cas::time_start = glfwGetTime();
 
-
-
         physics::step(cas::fixed_delta_time, 10);
 
         window::draw_background();
+        window::render_text(-0.95, 0.9, GLUT_BITMAP_HELVETICA_18, "Number of shapes: "+std::to_string(sh.shapes.size()));
+        sh.render_statistics(-0.95, 0.8, GLUT_BITMAP_HELVETICA_18);
         sh.draw_all_shapes();
         sh.delete_out_of_screen();
 
-        //if(sh.shapes.size()>=2) std::cout<<std::get<Circle>(sh.shapes[1]).vel<<std::endl;
-
-        //std::cout<<Collisions::contacts.size()<<std::endl;
-
-
-        
-
-
-
+          
         //swap front and back buffers - when the back one renders with the code above, this function will smoothly swap them
         glfwSwapBuffers(window);
         // Poll for and process events

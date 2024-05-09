@@ -31,10 +31,10 @@ namespace cbs {
         }
 
         if (key == GLFW_KEY_A and (action == GLFW_PRESS or action == GLFW_REPEAT)){
-            for (auto& shape : sh.shapes) if (Shapes::is_selected(shape)) Shapes::rotate_shape(shape, 0.05*PI);   
+            for (auto& shape : sh.shapes) if (Shapes::is_selected(shape)) Shapes::add_spin(shape, 0.00005);   
         }
         if (key == GLFW_KEY_D and (action == GLFW_PRESS or action == GLFW_REPEAT)){
-            for (auto& shape : sh.shapes) if (Shapes::is_selected(shape)) Shapes::rotate_shape(shape, -0.05*PI);  
+            for (auto& shape : sh.shapes) if (Shapes::is_selected(shape)) Shapes::add_spin(shape, -0.00005);  
         }
 
         if (key == GLFW_KEY_UP and (action == GLFW_PRESS or action == GLFW_REPEAT)){

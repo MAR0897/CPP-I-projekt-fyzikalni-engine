@@ -112,7 +112,16 @@ void Shapes::draw_static(const Shape& shape) {
 
 void Shapes::draw_all_shapes() const { 
     for (const auto& shape : shapes) {
-        if (Shapes::is_static(shape)) Shapes::draw_static(shape); 
-        else Shapes::draw(shape);
+        if (is_static(shape)) draw_static(shape); 
+        else draw(shape);
+    }
+}
+
+void Shapes::render_statistics(double&& x, double&& y, void* font) {
+    for (auto& shape : shapes) {
+        if (is_selected(shape)) {
+            Vec velocity = get_velocity(shape);
+            window::render_text(std::move(x), std::move(y), font, "Velocity: ["+std::to_string(velocity.x)+"x, "+std::to_string(velocity.y)+"y]");
+        }
     }
 }
