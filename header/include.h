@@ -4,6 +4,7 @@
 #include <GLFW/glfw3.h>
 #include <GL/glut.h>
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <algorithm>
 #include <string>
@@ -15,3 +16,4 @@
 #include <chrono>
 #include <thread>
 #include <limits>
+#include <jsoncpp/json/json.h>

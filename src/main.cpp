@@ -16,6 +16,10 @@ namespace cas {
 namespace physics {
 
     bool gravity = false;
+    const double RESTITUTION = 0.5;
+    const double STATIC_FRICTION = 0.4;
+    const double DYNAMIC_FRICTION = 0.3;
+
 
     void step(const double& delta, const int& iterations){
 
@@ -23,7 +27,7 @@ namespace physics {
 
         for (int it = 0; it<iterations; ++it){
 
-            if(gravity) sh.update_by_acceleration(delta_time, Vec{0.0, -0.981}); //gravity
+            if(gravity) sh.update_by_acceleration(delta_time, Vec{0.0, -0.981}); //gravity (to vyslo hezky)
             sh.update_by_force(delta_time);
             sh.update_position_and_rotation(delta_time);
             sh.handle_collisions();
@@ -43,7 +47,7 @@ int main(int argc, char **argv) {
     //set error callback
     glfwSetErrorCallback(cbs::errorCallback);
     //create window (dont worry, will be deleted at the end of main function)
-    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Super stacker 3", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Physics engine v0.42", NULL, NULL);
     if (!window) { std::cerr << "Failed to create GLFW window" << std::endl; glfwTerminate(); return -1; }
     //create GLFW context
     glfwMakeContextCurrent(window);
@@ -76,7 +80,7 @@ int main(int argc, char **argv) {
     while (!glfwWindowShouldClose(window)) {
         cas::time_start = glfwGetTime();
 
-        physics::step(cas::fixed_delta_time, 10);
+        physics::step(cas::fixed_delta_time, 5);
 
         window::draw_background();
         window::render_text(-0.95, 0.9, GLUT_BITMAP_HELVETICA_18, "Number of shapes: "+std::to_string(sh.shapes.size()));
@@ -87,7 +91,7 @@ int main(int argc, char **argv) {
           
         //swap front and back buffers - when the back one renders with the code above, this function will smoothly swap them
         glfwSwapBuffers(window);
-        // Poll for and process events
+        //process keyboard, mouse, etc events
         glfwPollEvents();
 
         cas::time_end = glfwGetTime();

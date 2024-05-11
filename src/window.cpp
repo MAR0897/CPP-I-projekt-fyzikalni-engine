@@ -15,8 +15,8 @@ namespace window{
     Vec get_mouse_coords(GLFWwindow* window){
         double mouseX, mouseY;
         glfwGetCursorPos(window, &mouseX, &mouseY);
-        double Xpos = (mouseX / 640.0) - 1.0;
-        double Ypos = 1.0 - (mouseY / 360.0);
+        double Xpos = (mouseX / (static_cast<double>(WIDTH)/2.0)) - 1.0;
+        double Ypos = 1.0 - (mouseY / (static_cast<double>(HEIGHT)/2.0));
         return Vec{Xpos, Ypos/ST};
     }
 

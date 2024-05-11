@@ -21,5 +21,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 add_executable(main ${SOURCES})
 
 # Link against the necessary libraries
-target_link_libraries(main ${OPENGL_LIBRARIES} glfw ${GLEW_LIBRARIES} glut)
+target_link_libraries(main ${OPENGL_LIBRARIES} glfw ${GLEW_LIBRARIES} glut jsoncpp)
+
 

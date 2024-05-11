@@ -56,14 +56,25 @@ void Shapes::resolve_collisions(Collisions& c){
     double re2 = get_restitution(c.sh2);
     double& rv1 = get_rot_velocity(c.sh1);
     double& rv2 = get_rot_velocity(c.sh2);
+    double sf1 = get_static_friction(c.sh1);
+    double sf2 = get_static_friction(c.sh2);
+    double df1 = get_dynamic_friction(c.sh1);
+    double df2 = get_dynamic_friction(c.sh2);
 
     double e = std::min(re1, re2);
+    double sf = (sf1+sf2)*0.5;  //average the frictions for simplicity
+    double df = (df1+df2)*0.5;
 
-    std::vector<Vec> c_points = {c.contact1, c.contact2};
-    std::vector<Vec> impulses(2);
-    std::vector<Vec> dis1(2);
-    std::vector<Vec> dis2(2);
+    std::array<Vec, 2> c_points = {c.contact1, c.contact2};
+    std::array<Vec, 2> impulses;
+    std::array<Vec, 2> friction_impulses;
+    std::array<Vec, 2> dis1;
+    std::array<Vec, 2> dis2;
+    std::array<Vec, 2> r1s;
+    std::array<Vec, 2> r2s;
+    std::array<double, 2> js;
 
+    //no friction
     for (int i = 0; i<c.contact_count; i++){
 
         Vec distance1 = c_points[i] - pos1;
@@ -72,11 +83,11 @@ void Shapes::resolve_collisions(Collisions& c){
         dis1[i] = distance1;
         dis2[i] = distance2;
 
-        Vec r1 = distance1.to_normal();
-        Vec r2 = distance2.to_normal();
+        r1s[i] = distance1.to_normal();
+        r2s[i] = distance2.to_normal();
 
-        Vec angular_vel1 = r1 * rv1;
-        Vec angular_vel2 = r2 * rv2;
+        Vec angular_vel1 = r1s[i] * rv1;
+        Vec angular_vel2 = r2s[i] * rv2;
 
         Vec relative_vel = (vel2 + angular_vel2) - (vel1 + angular_vel1);
 
@@ -84,14 +95,15 @@ void Shapes::resolve_collisions(Collisions& c){
 
         if(rel_vel_mag < 0.0) return;
         
-        double r1dn = r1.dot(c.normal);
-        double r2dn = r2.dot(c.normal);
+        double r1dn = r1s[i].dot(c.normal);
+        double r2dn = r2s[i].dot(c.normal);
 
         double j = (-(1.0 + e) * rel_vel_mag) / (inv_m1 + inv_m2 + r1dn*r1dn*inv_ri1 + r2dn*r2dn*inv_ri2);
         j /= static_cast<double>(c.contact_count);
 
         Vec impulse = c.normal * j;
         impulses[i] = impulse;
+        js[i] = j;
     }
 
     for (int i = 0; i<c.contact_count; i++){
@@ -100,6 +112,42 @@ void Shapes::resolve_collisions(Collisions& c){
         vel2 += impulses[i] * inv_m2;
         rv1 += -dis1[i].cross(impulses[i]) * inv_ri1;
         rv2 += dis2[i].cross(impulses[i]) * inv_ri2;
+    }
+
+    //friction calculation
+    for (int i = 0; i<c.contact_count; i++){
+        //Vec normal = -c.normal;
+
+        Vec angular_vel1 = r1s[i] * rv1;
+        Vec angular_vel2 = r2s[i] * rv2;
+
+        Vec relative_vel = (vel2 + angular_vel2) - (vel1 + angular_vel1);
+
+        Vec tangent = relative_vel - c.normal*relative_vel.dot(c.normal);
+
+        if (tangent.nearly_equal({0.0, 0.0})) return;
+        else tangent.to_unit();
+        
+        double r1dt = r1s[i].dot(tangent);
+        double r2dt = r2s[i].dot(tangent);
+        
+        double jt = (-relative_vel.dot(tangent)) / (inv_m1 + inv_m2 + r1dt*r1dt*inv_ri1 + r2dt*r2dt*inv_ri2);
+        jt /= static_cast<double>(c.contact_count);
+        tangent = -tangent;
+        Vec friction_impulse;
+
+        if (std::abs(jt) <= js[i]*sf) {friction_impulse = tangent*jt;}
+        else {friction_impulse = tangent*(-js[i])*df;}
+
+        friction_impulses[i] = friction_impulse;
+    }
+
+    for (int i = 0; i<c.contact_count; i++){
+
+        vel1 += -friction_impulses[i] * inv_m1;
+        vel2 += friction_impulses[i] * inv_m2;
+        rv1 += -dis1[i].cross(friction_impulses[i]) * inv_ri1;
+        rv2 += dis2[i].cross(friction_impulses[i]) * inv_ri2;
     }
 }
 

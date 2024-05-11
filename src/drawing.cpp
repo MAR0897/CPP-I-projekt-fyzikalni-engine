@@ -26,7 +26,7 @@ void Shapes::draw(const Shape& shape) {
         [&](const Triangle& t) {
             glBegin(GL_TRIANGLES);
             if (t.is_selected) glColor3ub(255,0,0);
-            else glColor3ub(0,250,250);
+            else glColor3ub(245, 209, 51);
             glVertex2d(t.vertices[0].x, t.vertices[0].y*ST);
             glVertex2d(t.vertices[1].x, t.vertices[1].y*ST);
             glVertex2d(t.vertices[2].x, t.vertices[2].y*ST);
@@ -117,11 +117,23 @@ void Shapes::draw_all_shapes() const {
     }
 }
 
-void Shapes::render_statistics(double&& x, double&& y, void* font) {
+void Shapes::render_statistics(double x, double y, void* font) {
     for (auto& shape : shapes) {
         if (is_selected(shape)) {
-            Vec velocity = get_velocity(shape);
-            window::render_text(std::move(x), std::move(y), font, "Velocity: ["+std::to_string(velocity.x)+"x, "+std::to_string(velocity.y)+"y]");
+            std::visit([&](auto& s) { m_render_statistics(s, x, y, font); }, shape);
+            break;
         }
     }
+}
+
+template<typename S>
+void Shapes::m_render_statistics(S& s, double x, double y, void* font) {
+    window::render_text(x-0.0, y-0.0, font, "Velocity: ["+std::to_string(s.vel.x)+"x, "+std::to_string(s.vel.y)+"y]");
+    window::render_text(x-0.0, y-0.1, font, "Rot. vel.: "+std::to_string(s.rotvel));
+    window::render_text(x-0.0, y-0.2, GLUT_BITMAP_HELVETICA_12, "Mass: "+std::to_string(s.mass));
+    window::render_text(x-0.0, y-0.25, GLUT_BITMAP_HELVETICA_12, "Rotational invertia: "+std::to_string(s.rot_inertia));
+    window::render_text(x-0.0, y-0.3, GLUT_BITMAP_HELVETICA_12, "Restitution: "+std::to_string(s.restitution));
+    window::render_text(x-0.0, y-0.35, GLUT_BITMAP_HELVETICA_12, "Static friction: "+std::to_string(s.friction_s));
+    window::render_text(x-0.0, y-0.4, GLUT_BITMAP_HELVETICA_12, "Dynamic friction: "+std::to_string(s.friction_d));
+    window::render_text(x-0.0, y-0.45, GLUT_BITMAP_HELVETICA_12, "Density: "+std::to_string(s.density));
 }

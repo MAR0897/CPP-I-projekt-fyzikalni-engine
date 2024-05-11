@@ -1,0 +1,28 @@
+[
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.29999999999999999,
+		"is selected?" : false,
+		"is static?" : true,
+		"position" : 
+		[
+			0.0,
+			-0.69999998807907104
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			1.7777777777777777,
+			0.69999998807907104
+		],
+		"static friction" : 0.40000000000000002,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	}
+]
