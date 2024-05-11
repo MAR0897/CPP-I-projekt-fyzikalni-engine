@@ -5,6 +5,8 @@
 #include "include.h"
 #include "vec2D.h"
 #include "objects.h"
+#include "shapes.h"
+#include "collisions.h"
 
 
 const double PI = 3.1415926535;

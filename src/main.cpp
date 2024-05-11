@@ -15,10 +15,11 @@ namespace cas {
 
 namespace physics {
 
+    int iterations = 50;
     bool gravity = false;
     const double RESTITUTION = 0.5;
-    const double STATIC_FRICTION = 0.4;
-    const double DYNAMIC_FRICTION = 0.3;
+    const double STATIC_FRICTION = 0.7;
+    const double DYNAMIC_FRICTION = 0.55;
 
 
     void step(const double& delta, const int& iterations){
@@ -80,11 +81,19 @@ int main(int argc, char **argv) {
     while (!glfwWindowShouldClose(window)) {
         cas::time_start = glfwGetTime();
 
-        physics::step(cas::fixed_delta_time, 5);
+        //random function for computing number of iterations based on how many shapes are present on the screen
+        int s = sh.shapes.size();
+        if (s >= 1) {
+            if (s <= 140) physics::iterations = std::floor(-20*std::log(s)+100+1.0/s);
+            else physics::iterations = 1;
+        }
+
+        //physics calculations
+        physics::step(cas::fixed_delta_time, physics::iterations);
+
 
         window::draw_background();
-        window::render_text(-0.95, 0.9, GLUT_BITMAP_HELVETICA_18, "Number of shapes: "+std::to_string(sh.shapes.size()));
-        sh.render_statistics(-0.95, 0.8, GLUT_BITMAP_HELVETICA_18);
+        
         sh.draw_all_shapes();
         sh.delete_out_of_screen();
 
@@ -96,7 +105,7 @@ int main(int argc, char **argv) {
 
         cas::time_end = glfwGetTime();
         cas::sleep_time = cas::fixed_delta_time - (cas::time_end-cas::time_start);
-        std::this_thread::sleep_for(std::chrono::duration<double>(cas::sleep_time));
+        if (cas::sleep_time > 0.0) std::this_thread::sleep_for(std::chrono::duration<double>(cas::sleep_time));
     }
 //End of main loop
 //------------------------------------------------------------------------------------------------------------------------

@@ -2,7 +2,7 @@
 
 #include "include.h"
 
-//Custom 2D vector================================================================================================================
+//Custom 2D vector
 
 struct Vec{
 
@@ -29,7 +29,7 @@ struct Vec{
     bool operator!=(const Vec& other) const;
     bool nearly_equal(const Vec& other) const;
     static bool nearly_equal(const double& a, const double& b);
-    static constexpr double nearly_equal_threshold = 0.0000001;
+    static constexpr double nearly_equal_threshold = 0.00000000000001;
     friend Vec operator+(const Vec& v1, const Vec& v2);
     friend Vec operator-(const Vec& v1, const Vec& v2);
     friend Vec operator*(const Vec& v1, const Vec& v2);

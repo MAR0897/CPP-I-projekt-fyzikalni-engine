@@ -6,39 +6,46 @@ namespace cbs {
     Vec swipe_end;
     bool is_mouse_pressed = false;
 
-    //Keys
+    //Error callback
+    void errorCallback(int error, const char* description){
+        std::cerr << "Error: " << description << std::endl;
+    }
+
+    //Key callbacks
     void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
 
+        //Close engine
         if (key == GLFW_KEY_ESCAPE and action == GLFW_PRESS){
             glfwSetWindowShouldClose(window, GLFW_TRUE);
         }
 
+        //Enable gravity
         if (key == GLFW_KEY_G and action == GLFW_PRESS){
             physics::gravity = !physics::gravity; 
         }
     
+        //Deselect all shapes
         if (key == GLFW_KEY_Q and action == GLFW_PRESS){
             sh.deselect();
         }
 
+        //Adding shapes
         if (key == GLFW_KEY_R and action == GLFW_PRESS){
             sh.add_shape((Rectangle{window::get_mouse_coords(window), Vec{0.2, 0.2}}));   
         }
-
         if (key == GLFW_KEY_T and action == GLFW_PRESS){
             sh.add_shape((Triangle{window::get_mouse_coords(window), 0.15}));    
         }
-
         if (key == GLFW_KEY_C and action == GLFW_PRESS){
             sh.add_shape((Circle{window::get_mouse_coords(window), 0.1}));    
         }
 
-
+        //Delete selected shapes
         if (key == GLFW_KEY_DELETE and action == GLFW_PRESS){
-            //sh.delete_shape(window::get_mouse_coords(window));
             sh.delete_selected();
         }
 
+        //Rotate shapes
         if (key == GLFW_KEY_A and (action == GLFW_PRESS or action == GLFW_REPEAT)){
             for (auto& shape : sh.shapes) if (Shapes::is_selected(shape)) Shapes::add_spin(shape, 0.00005);   
         }
@@ -46,6 +53,7 @@ namespace cbs {
             for (auto& shape : sh.shapes) if (Shapes::is_selected(shape)) Shapes::add_spin(shape, -0.00005);  
         }
 
+        //Move shapes
         if (key == GLFW_KEY_UP and (action == GLFW_PRESS or action == GLFW_REPEAT)){
             for (auto& shape : sh.shapes) if (Shapes::is_selected(shape)) Shapes::add_force(shape, Vec{0.0, 1.0});   
         }
@@ -59,10 +67,10 @@ namespace cbs {
             for (auto& shape : sh.shapes) if (Shapes::is_selected(shape)) Shapes::add_force(shape, Vec{1.0, 0.0});  
         }
 
+        //Toggle static shape
         if (key == GLFW_KEY_S and action == GLFW_PRESS){
             for (auto& shape : sh.shapes) if (Shapes::is_inside(window::get_mouse_coords(window), shape)) Shapes::toggle_static(shape);   
         }
-
 
         //Creating and saving savestates
         if (key == GLFW_KEY_1 and action == GLFW_PRESS) if (!(mods & GLFW_MOD_SHIFT)) sh.load_to_json("json/test1.json");
@@ -91,18 +99,12 @@ namespace cbs {
         //Custom filenames for savestates
         if (key == GLFW_KEY_GRAVE_ACCENT  and action == GLFW_PRESS) sh.load_to_json();
         if (key == GLFW_KEY_GRAVE_ACCENT  and action == GLFW_PRESS) if (mods & GLFW_MOD_SHIFT) sh.load_from_json();
-            
-
     }
 
     //Mouse keys
     void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
-        //if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
-            
-            //for (auto& shape : sh.shapes) if (sh.is_inside(get_mouse_coords(window), shape)) sh.move_shape_to(shape, get_mouse_coords(window));    
-            //for (auto& shape : sh.shapes) if (Shapes::is_inside(window::get_mouse_coords(window), shape)) Shapes::toggle_selected(shape);
-            
-        
+
+        //Right mouse button for swipe select        
         if (button == GLFW_MOUSE_BUTTON_RIGHT) {
             if (action == GLFW_PRESS) {
                 is_mouse_pressed = true;
@@ -114,12 +116,14 @@ namespace cbs {
                 sh.swipe_select(swipe_start, swipe_end);
             }
         }
-        else if (button == GLFW_MOUSE_BUTTON_LEFT and action == GLFW_PRESS) {
+
+        //Left mouse button for click select (toggle)
+        if (button == GLFW_MOUSE_BUTTON_LEFT and action == GLFW_PRESS) {
             for (auto& shape : sh.shapes) if (Shapes::is_inside(window::get_mouse_coords(window), shape)) Shapes::toggle_selected(shape);
         }
     }
 
-    //Scroll
+    //Scroll callback for shape resizing
     void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
 
         for (auto& shape : sh.shapes) if (Shapes::is_selected(shape)) Shapes::resize_shape(shape, yoffset/100.0);      

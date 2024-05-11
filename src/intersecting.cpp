@@ -5,8 +5,7 @@ bool Shapes::intersect(const Shape& sh1, const Shape& sh2, double& depth, Vec& n
     return std::visit([&](auto& s1, auto& s2) -> bool { return m_intersect(s1, s2, depth, normal); }, sh1, sh2);
 }
 
-//compiler nema rad negace, tzn musis specifikovat presne typ v ifu, aby ti to furt nepsalo, ze Circle nema vertices :/
-// jo a taky nesmis menit const a mutable v argumentu funkce, jinak to std::is_same_v nezkousne!!!!!!!
+//nesmis menit const a mutable v argumentu funkce, jinak to std::is_same_v nezkousne!!!!!!!
 template<typename S1, typename S2>
 bool Shapes::m_intersect(const S1& s1, const S2& s2, double& depth, Vec& normal) {
 

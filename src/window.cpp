@@ -1,14 +1,15 @@
 #include "../header/header.h"
 
-void cbs::errorCallback(int error, const char* description){
-    std::cerr << "Error: " << description << std::endl;
-}
-
 namespace window{
 
     void draw_background(){
+        //render statistics
+        window::render_text(-0.95, 0.9, GLUT_BITMAP_HELVETICA_18, "Number of shapes: "+std::to_string(sh.shapes.size()));
+        sh.render_statistics(-0.95, 0.8, GLUT_BITMAP_HELVETICA_18);
+        //draw background
         glClearColor(0.6f, 0.8f, 0.87f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+        //draw all shapes
         bgsh.draw_all_shapes();
     }
 
