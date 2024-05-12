@@ -100,7 +100,7 @@ namespace cbs {
         if (key == GLFW_KEY_0 and action == GLFW_PRESS) if (mods & GLFW_MOD_SHIFT) physics::sh.load_from_json("json/test10.json");
 
         //Custom filenames for savestates
-        if (key == GLFW_KEY_GRAVE_ACCENT  and action == GLFW_PRESS) physics::sh.load_to_json();
+        if (key == GLFW_KEY_GRAVE_ACCENT  and action == GLFW_PRESS) if (mods & GLFW_MOD_CONTROL) physics::sh.load_to_json();
         if (key == GLFW_KEY_GRAVE_ACCENT  and action == GLFW_PRESS) if (mods & GLFW_MOD_SHIFT) physics::sh.load_from_json();
     }
 
