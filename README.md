@@ -4,7 +4,9 @@
 
 ## Popis projektu
 
-Cílem tohoto projektu bylo vytvořit program, který simuluje reálné fyzikální interakce mezi objekty – posuvný pohyb, otáčivý pohyb, kolize objektů, tření a další fyzikální věcičky. Samotný program je "pracovní plocha", na kterou uživatel může pokládat různé geometrické objekty a ty by pak měly interagovat s prostředím a ostatními objekty dle fyzikálních zákonů. Engine jede ve vektorovém prostoru o dimenzi 2 a všechny fyzikální veličiny jsou proto "naškálované" (třeba hmotnost objektu = hustota * obsah).
+Cílem tohoto projektu bylo vytvořit program, který simuluje reálné fyzikální interakce mezi objekty – posuvný pohyb, otáčivý pohyb, kolize objektů, tření a další fyzikální věcičky. Samotný program je "pracovní plocha", na kterou uživatel může pokládat různé geometrické objekty a ty by pak měly interagovat s prostředím a ostatními objekty dle fyzikálních zákonů.
+
+Engine jede ve vektorovém prostoru o dimenzi 2 a všechny fyzikální veličiny jsou proto "naškálované" (třeba hmotnost objektu = hustota * obsah).
 
 ## Funkcionality
 
@@ -28,9 +30,11 @@ Cílem tohoto projektu bylo vytvořit program, který simuluje reálné fyzikál
 
 ### Ukládání do souboru a načítání ze souboru
 
-Celou simulaci je možné se vším všudy (kromě gravitace) uložit do souboru a pak ji z něj načíst zpět. Zapisování do souboru probíhá stisknutím CTRL + číselno-háčkových-čárkových kláves (prostě ty pod funkcemi, ne ta čísla úplně napravo). Takhle se zapíše simulace do přednastaveného souboru test1 až test10.json. Načítání simulace se provádí stisknutím SHIFT + klávesa a zase se načítá z přednastavených souborů. Zapsání do a načtení z vlastního souboru lze stisknutím GRAVE_ACCENT (klávesa pod ESC). Je nutné zadat umístění souboru do terminálu.
-Ukládání probíhá do JSON souboru. Data jsou uložená jako pole objektů. Je nutné proto mít i speciální knihovnu na parsování JSON souborů.
-Manuálními změnami se tím pádem dá dostat třeba jiné tření nebo koeficient restituce, než jsou defaultně zadány.
+Celou simulaci je možné se vším všudy (kromě gravitace) uložit do souboru a pak ji z něj načíst zpět. Zapisování do souboru probíhá stisknutím CTRL + číselno-háčkových-čárkových kláves (prostě ty pod funkcemi, ne ta čísla úplně napravo). Takhle se zapíše simulace do přednastaveného souboru test1 až test10.json. Načítání simulace se provádí stisknutím SHIFT + klávesa a zase se načítá z přednastavených souborů.
+
+Zapsání do a načtení z vlastního souboru lze stisknutím GRAVE_ACCENT (klávesa pod ESC). Je nutné zadat umístění souboru do terminálu.
+
+Ukládání probíhá do JSON souboru. Data jsou uložená jako pole objektů. Je nutné proto mít i speciální knihovnu na parsování JSON souborů. Manuálními změnami se tím pádem dá dostat třeba jiné tření nebo koeficient restituce, než jsou defaultně zadány.
 
 ### Další funkcionality
 
@@ -40,7 +44,7 @@ Manuálními změnami se tím pádem dá dostat třeba jiné tření nebo koefic
 - Vybráním objektu se ukážou jeho hodnoty fyzikálních veličin. Při vybrání více objektů se ukazují jen statistiky objektu, který byl přidán jako první (dojde se k němu jako k prvnímu při iterování vektorem objektů)
 - Objekty lze také přidávat mimo obrazovku namířením myši úplně mimo program a stisknutím R/T/C. (to nebylo chtěné)
 
-## Spuštění:
+## Spuštění
 
 Je třeba nainstalovat OpenGL, tedy GLFW, GLEW a GLUT a pak taky knihovnu na parsování JSON souborů, např. takto:
 
