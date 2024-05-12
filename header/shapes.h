@@ -24,10 +24,15 @@ struct Shapes{
         Shapes() = default;
         Shapes(const std::vector<Shape>& sh);
         Shapes(std::vector<Shape>&& sh);
+        //add shape to the vector of shape handles
         void add_shape(const Shape& sh);
+        //add shape to the vector of shape handles
         void add_shape(Shape&& sh);
+        //delete shape the mouse points at (NOT USED IN THIS PROJECT)
         void delete_shape(const Vec& mousepos);
+        //delete shapes that are selected (red color)
         void delete_selected();
+        //delete shapes that fell out of the screen
         void delete_out_of_screen();
 
     //--------------------------------------------------------------------------------

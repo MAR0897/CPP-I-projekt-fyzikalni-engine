@@ -45,6 +45,7 @@ void Shapes::handle_collisions(){
 
 }
 
+//some intermediate level physics here
 void Collisions::resolve_collisions(Collisions& c){
     
     if (c.contact_count == 0) return;

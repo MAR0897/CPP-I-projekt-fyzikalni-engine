@@ -1,8 +1,10 @@
 #include "../header/header.h"
 
+//key, mouse and error callbacks
+
 namespace cbs {
 
-
+    //starting and ending point of swipe select 
     Vec swipe_start;
     Vec swipe_end;
     bool is_mouse_pressed = false;
@@ -129,5 +131,4 @@ namespace cbs {
 
         for (auto& shape : physics::sh.shapes) if (Shapes::is_selected(shape)) Shapes::resize_shape(shape, yoffset/100.0);      
     }
-
 }
