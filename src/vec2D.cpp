@@ -1,7 +1,7 @@
 #include "../header/header.h"
 
-//Custom 2D vector===========================================================================================
-//TODO: handle division by zero
+//Custom 2D vector
+
 Vec::Vec(const double& X, const double& Y) : x(X), y(Y) {}
 Vec::Vec(double&& X, double&& Y) : x(std::move(X)), y(std::move(Y)) {}
 Vec::Vec(const Vec& v) : x(v.x), y(v.y) {}
@@ -27,12 +27,24 @@ bool Vec::nearly_equal(const double& a, const double& b) { return std::abs(a-b) 
 Vec operator+(const Vec& v1, const Vec& v2) { return Vec(v1.x + v2.x, v1.y + v2.y); }
 Vec operator-(const Vec& v1, const Vec& v2) { return Vec(v1.x - v2.x, v1.y - v2.y); }
 Vec operator*(const Vec& v1, const Vec& v2) { return Vec(v1.x * v2.x, v1.y * v2.y); }
-Vec operator/(const Vec& v1, const Vec& v2) { return Vec(v1.x / v2.x, v1.y / v2.y); }
+Vec operator/(const Vec& v1, const Vec& v2) { 
+    if (v2.x == 0.0 or v2.y == 0.0) {
+        std::cout<<"Error: division by zero"<<std::endl;
+        return Vec(v1);
+    }
+    return Vec(v1.x / v2.x, v1.y / v2.y); 
+}
+
 Vec operator-(const Vec& minusvec) { return Vec( -minusvec.x, -minusvec.y); }
 Vec operator+(const Vec& v1, const double& n) { return Vec(v1.x + n, v1.y + n); }
 Vec operator-(const Vec& v1, const double& n) { return Vec(v1.x - n, v1.y - n); }
 Vec operator*(const Vec& v1, const double& n) { return Vec(v1.x * n, v1.y * n); }
-Vec operator/(const Vec& v1, const double& n) { return Vec(v1.x / n, v1.y / n); }
+Vec operator/(const Vec& v1, const double& n) { 
+    if (n == 0.0) {
+        std::cout<<"Error: division by zero"<<std::endl;
+        return Vec(v1);
+    }
+    return Vec(v1.x / n, v1.y / n); }
 
 std::ostream& operator<<(std::ostream& os, const Vec& vec) { os<<"("<<vec.x<<", "<<vec.y<<")"<<std::endl; return os; }
 

@@ -1,57 +1,47 @@
 #include "../header/header.h"
 
-
-Shapes sh;
-Shapes bgsh;
-std::vector<Collisions> Collisions::contacts;
-
-
+//Time measurement for syncing the simulation with the real world
 namespace cas {
+
     double fixed_delta_time = 0;    // fixed_delta_time = 1/refresh rate of the monitor
     double time_start = 0;
     double time_end = 0;
-    double sleep_time = 0;          
+    double sleep_time = 0;  
+
+    void sleep_thread() {
+        sleep_time = fixed_delta_time - (time_end-time_start);
+        if (sleep_time > 0.0) std::this_thread::sleep_for(std::chrono::duration<double>(sleep_time));
+    }       
 }
+
 
 namespace physics {
 
-    int iterations = 50;
-    bool gravity = false;
-    const double RESTITUTION = 0.5;
-    const double STATIC_FRICTION = 0.7;
-    const double DYNAMIC_FRICTION = 0.55;
-
-
-    void step(const double& delta, const int& iterations){
-
-        double delta_time = delta/static_cast<double>(iterations);
-
-        for (int it = 0; it<iterations; ++it){
-
-            if(gravity) sh.update_by_acceleration(delta_time, Vec{0.0, -0.981}); //gravity (to vyslo hezky)
-            sh.update_by_force(delta_time);
-            sh.update_position_and_rotation(delta_time);
-            sh.handle_collisions();
-
-        }
-    }
+    Shapes sh;
 }
 
+//================================================================================================================================
 
 int main(int argc, char **argv) {
 
+    //Initialization
+
+    //initialize glut for text rendering
     glutInit(&argc, argv);
 
-//Initialize GLFW window, error and stuff
     //initialize GLFW
     if (!glfwInit()) { std::cerr << "Failed to initialize GLFW" << std::endl; return -1; }
+
     //set error callback
     glfwSetErrorCallback(cbs::errorCallback);
-    //create window (dont worry, will be deleted at the end of main function)
-    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Physics engine v0.42", NULL, NULL);
+
+    //create window
+    GLFWwindow* window = glfwCreateWindow(window::WIDTH, window::HEIGHT, "Physics engine v0.42", NULL, NULL);
     if (!window) { std::cerr << "Failed to create GLFW window" << std::endl; glfwTerminate(); return -1; }
+
     //create GLFW context
     glfwMakeContextCurrent(window);
+
     //set window buffers swap interval - vsync (aspon doufam ze to tak funguje)
     glfwSwapInterval(1);
 
@@ -67,52 +57,46 @@ int main(int argc, char **argv) {
     glfwSetScrollCallback(window, cbs::scroll_callback);
     glfwSetKeyCallback(window, cbs::key_callback);
 
-    //add ground
-    sh.add_shape(Rectangle{Vec{0.0, GROUND}, Vec{1.0*ST, -GROUND}});  
-    for (auto& shape: sh.shapes) Shapes::toggle_static(shape);
-
-
-
-    
+    //add ground and possibly some other static shapes
+    physics::sh.add_shape(Rectangle{Vec{0.0, window::GROUND}, Vec{1.0*window::ST, -window::GROUND}});  
+    for (auto& shape: physics::sh.shapes) Shapes::toggle_static(shape);
 
 
 //------------------------------------------------------------------------------------------------------------------------
 //Main loop
     while (!glfwWindowShouldClose(window)) {
+
+        //Start timer
         cas::time_start = glfwGetTime();
 
         //random function for computing number of iterations based on how many shapes are present on the screen
-        int s = sh.shapes.size();
-        if (s >= 1) {
-            if (s <= 140) physics::iterations = std::floor(-20*std::log(s)+100+1.0/s);
-            else physics::iterations = 1;
-        }
+        physics::cap_iterations();
 
         //physics calculations
         physics::step(cas::fixed_delta_time, physics::iterations);
 
-
+        //draw background and render text
         window::draw_background();
         
-        sh.draw_all_shapes();
-        sh.delete_out_of_screen();
+        //draw shapes on the screen and delete the out-of-screen ones
+        physics::sh.draw_all_shapes();
+        physics::sh.delete_out_of_screen();
 
-          
         //swap front and back buffers - when the back one renders with the code above, this function will smoothly swap them
         glfwSwapBuffers(window);
+        
         //process keyboard, mouse, etc events
         glfwPollEvents();
 
+        //End the timer and sleep the main thread for some time to wait for the fixed delta time to pass by
         cas::time_end = glfwGetTime();
-        cas::sleep_time = cas::fixed_delta_time - (cas::time_end-cas::time_start);
-        if (cas::sleep_time > 0.0) std::this_thread::sleep_for(std::chrono::duration<double>(cas::sleep_time));
+        cas::sleep_thread();
     }
 //End of main loop
 //------------------------------------------------------------------------------------------------------------------------
 
-//End GLFW
+    //Terminate
     glfwDestroyWindow(window);
     glfwTerminate();
     return 0;
 }
-

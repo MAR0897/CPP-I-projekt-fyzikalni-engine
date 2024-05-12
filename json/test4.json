@@ -1,61 +1,35 @@
 [
 	{
 		"density" : 1.0,
-		"dynamic friction" : 0.29999999999999999,
-		"is selected?" : false,
-		"is static?" : true,
-		"position" : 
-		[
-			0.0,
-			-0.69999998807907104
-		],
-		"restitution" : 0.5,
-		"rotation" : 0.0,
-		"rotational velocity" : 0.0,
-		"shape type" : "Rectangle",
-		"size" : 
-		[
-			1.7777777777777777,
-			0.69999998807907104
-		],
-		"static friction" : 0.40000000000000002,
-		"velocity" : 
-		[
-			0.0,
-			0.0
-		]
-	},
-	{
-		"density" : 1.0,
-		"dynamic friction" : 0.29999999999999999,
-		"is selected?" : false,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : true,
 		"is static?" : false,
 		"position" : 
 		[
-			-0.31623798744442494,
-			-0.27499999403953551
+			-0.81481892026750868,
+			0.024999999999999974
 		],
 		"restitution" : 0.5,
-		"rotation" : 0.0,
-		"rotational velocity" : 0.0,
+		"rotation" : -2319.6207407407478,
+		"rotational velocity" : -22.755555555555592,
 		"shape type" : "Triangle",
 		"size" : 0.14999999999999999,
-		"static friction" : 0.40000000000000002,
+		"static friction" : 0.69999999999999996,
 		"velocity" : 
 		[
-			0.0,
+			1.0408340855860843e-17,
 			0.0
 		]
 	},
 	{
 		"density" : 1.0,
-		"dynamic friction" : 0.29999999999999999,
+		"dynamic friction" : 0.55000000000000004,
 		"is selected?" : false,
 		"is static?" : false,
 		"position" : 
 		[
-			-0.15530015540519218,
-			0.54025171334102629
+			-0.024636073879512436,
+			0.52980136772010256
 		],
 		"restitution" : 0.5,
 		"rotation" : 0.0,
@@ -63,10 +37,10 @@
 		"shape type" : "Rectangle",
 		"size" : 
 		[
-			0.20000000000000001,
-			0.20000000000000001
+			0.029999999999999971,
+			0.029999999999999971
 		],
-		"static friction" : 0.40000000000000002,
+		"static friction" : 0.69999999999999996,
 		"velocity" : 
 		[
 			0.0,
@@ -75,35 +49,13 @@
 	},
 	{
 		"density" : 1.0,
-		"dynamic friction" : 0.29999999999999999,
+		"dynamic friction" : 0.55000000000000004,
 		"is selected?" : false,
 		"is static?" : false,
 		"position" : 
 		[
-			-0.53630250078392161,
-			-0.11653646959563338
-		],
-		"restitution" : 0.5,
-		"rotation" : 0.0,
-		"rotational velocity" : 0.0,
-		"shape type" : "Triangle",
-		"size" : 0.14999999999999999,
-		"static friction" : 0.40000000000000002,
-		"velocity" : 
-		[
-			0.0,
-			0.0
-		]
-	},
-	{
-		"density" : 1.0,
-		"dynamic friction" : 0.29999999999999999,
-		"is selected?" : false,
-		"is static?" : false,
-		"position" : 
-		[
-			-0.44371162687590626,
-			0.1373374384109132
+			0.20683266911322171,
+			0.58865752289291029
 		],
 		"restitution" : 0.5,
 		"rotation" : 0.0,
@@ -111,10 +63,10 @@
 		"shape type" : "Rectangle",
 		"size" : 
 		[
-			0.20000000000000001,
-			0.20000000000000001
+			0.029999999999999971,
+			0.029999999999999971
 		],
-		"static friction" : 0.40000000000000002,
+		"static friction" : 0.69999999999999996,
 		"velocity" : 
 		[
 			0.0,
@@ -123,35 +75,13 @@
 	},
 	{
 		"density" : 1.0,
-		"dynamic friction" : 0.29999999999999999,
+		"dynamic friction" : 0.55000000000000004,
 		"is selected?" : false,
 		"is static?" : false,
 		"position" : 
 		[
-			0.14269103164120886,
-			-0.27499999403953557
-		],
-		"restitution" : 0.5,
-		"rotation" : 0.0,
-		"rotational velocity" : 0.0,
-		"shape type" : "Triangle",
-		"size" : 0.14999999999999999,
-		"static friction" : 0.40000000000000002,
-		"velocity" : 
-		[
-			0.0,
-			0.0
-		]
-	},
-	{
-		"density" : 1.0,
-		"dynamic friction" : 0.29999999999999999,
-		"is selected?" : false,
-		"is static?" : false,
-		"position" : 
-		[
-			-0.086773477901608068,
-			-0.24923910234468025
+			0.41936138126373956,
+			0.51319381041354339
 		],
 		"restitution" : 0.5,
 		"rotation" : 0.0,
@@ -159,10 +89,10 @@
 		"shape type" : "Rectangle",
 		"size" : 
 		[
-			0.20000000000000001,
-			0.20000000000000001
+			0.029999999999999971,
+			0.029999999999999971
 		],
-		"static friction" : 0.40000000000000002,
+		"static friction" : 0.69999999999999996,
 		"velocity" : 
 		[
 			0.0,
@@ -171,35 +101,13 @@
 	},
 	{
 		"density" : 1.0,
-		"dynamic friction" : 0.29999999999999999,
+		"dynamic friction" : 0.55000000000000004,
 		"is selected?" : false,
 		"is static?" : false,
 		"position" : 
 		[
-			0.21419910825748009,
-			0.31525171334102636
-		],
-		"restitution" : 0.5,
-		"rotation" : 0.0,
-		"rotational velocity" : 0.0,
-		"shape type" : "Triangle",
-		"size" : 0.14999999999999999,
-		"static friction" : 0.40000000000000002,
-		"velocity" : 
-		[
-			0.0,
-			0.0
-		]
-	},
-	{
-		"density" : 1.0,
-		"dynamic friction" : 0.29999999999999999,
-		"is selected?" : false,
-		"is static?" : false,
-		"position" : 
-		[
-			0.36893803601091935,
-			0.11742897690274048
+			0.61936138126373952,
+			0.52924281639786708
 		],
 		"restitution" : 0.5,
 		"rotation" : 0.0,
@@ -207,10 +115,10 @@
 		"shape type" : "Rectangle",
 		"size" : 
 		[
-			0.20000000000000001,
-			0.20000000000000001
+			0.029999999999999971,
+			0.029999999999999971
 		],
-		"static friction" : 0.40000000000000002,
+		"static friction" : 0.69999999999999996,
 		"velocity" : 
 		[
 			0.0,
@@ -219,13 +127,13 @@
 	},
 	{
 		"density" : 1.0,
-		"dynamic friction" : 0.29999999999999999,
+		"dynamic friction" : 0.55000000000000004,
 		"is selected?" : false,
 		"is static?" : false,
 		"position" : 
 		[
-			0.45116944072484377,
-			-0.14808559222307993
+			1.0219090468406513,
+			0.47219500619006072
 		],
 		"restitution" : 0.5,
 		"rotation" : 0.0,
@@ -233,10 +141,10 @@
 		"shape type" : "Rectangle",
 		"size" : 
 		[
-			0.20000000000000001,
-			0.20000000000000001
+			0.029999999999999971,
+			0.029999999999999971
 		],
-		"static friction" : 0.40000000000000002,
+		"static friction" : 0.69999999999999996,
 		"velocity" : 
 		[
 			0.0,
@@ -245,35 +153,13 @@
 	},
 	{
 		"density" : 1.0,
-		"dynamic friction" : 0.29999999999999999,
+		"dynamic friction" : 0.55000000000000004,
 		"is selected?" : false,
 		"is static?" : false,
 		"position" : 
 		[
-			0.22126563015717807,
-			-0.049999994039535575
-		],
-		"restitution" : 0.5,
-		"rotation" : 0.0,
-		"rotational velocity" : 0.0,
-		"shape type" : "Triangle",
-		"size" : 0.14999999999999999,
-		"static friction" : 0.40000000000000002,
-		"velocity" : 
-		[
-			0.0,
-			0.0
-		]
-	},
-	{
-		"density" : 1.0,
-		"dynamic friction" : 0.29999999999999999,
-		"is selected?" : false,
-		"is static?" : false,
-		"position" : 
-		[
-			-0.085041965209366133,
-			0.34025171334102633
+			0.82190904684065136,
+			0.49230757469460024
 		],
 		"restitution" : 0.5,
 		"rotation" : 0.0,
@@ -281,10 +167,10 @@
 		"shape type" : "Rectangle",
 		"size" : 
 		[
-			0.20000000000000001,
-			0.20000000000000001
+			0.029999999999999971,
+			0.029999999999999971
 		],
-		"static friction" : 0.40000000000000002,
+		"static friction" : 0.69999999999999996,
 		"velocity" : 
 		[
 			0.0,
@@ -293,35 +179,13 @@
 	},
 	{
 		"density" : 1.0,
-		"dynamic friction" : 0.29999999999999999,
+		"dynamic friction" : 0.55000000000000004,
 		"is selected?" : false,
 		"is static?" : false,
 		"position" : 
 		[
-			-0.30753337663305974,
-			-0.049999994039535603
-		],
-		"restitution" : 0.5,
-		"rotation" : 0.0,
-		"rotational velocity" : 0.0,
-		"shape type" : "Triangle",
-		"size" : 0.14999999999999999,
-		"static friction" : 0.40000000000000002,
-		"velocity" : 
-		[
-			0.0,
-			0.0
-		]
-	},
-	{
-		"density" : 1.0,
-		"dynamic friction" : 0.29999999999999999,
-		"is selected?" : false,
-		"is static?" : false,
-		"position" : 
-		[
-			0.086769937329724933,
-			0.14025171334102632
+			1.2863258295330433,
+			0.28889619269594419
 		],
 		"restitution" : 0.5,
 		"rotation" : 0.0,
@@ -329,10 +193,10 @@
 		"shape type" : "Rectangle",
 		"size" : 
 		[
-			0.20000000000000001,
-			0.20000000000000001
+			0.029999999999999971,
+			0.029999999999999971
 		],
-		"static friction" : 0.40000000000000002,
+		"static friction" : 0.69999999999999996,
 		"velocity" : 
 		[
 			0.0,
@@ -341,20 +205,2104 @@
 	},
 	{
 		"density" : 1.0,
-		"dynamic friction" : 0.29999999999999999,
+		"dynamic friction" : 0.55000000000000004,
 		"is selected?" : false,
 		"is static?" : false,
 		"position" : 
 		[
-			-0.097882093867876246,
-			0.03687333233917723
+			0.8863259026262762,
+			0.16680669903712994
 		],
 		"restitution" : 0.5,
 		"rotation" : 0.0,
 		"rotational velocity" : 0.0,
-		"shape type" : "Triangle",
-		"size" : 0.14999999999999999,
-		"static friction" : 0.40000000000000002,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.52732913795810055,
+			0.2810932370562142
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.35205696306024375,
+			0.28319381041354347
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.24032323121928095,
+			0.27131192335950682
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			-0.096232756655778642,
+			0.29980136772010263
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			-0.01436383928571433,
+			0.069801367720102661
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.052020412282578532,
+			0.048924257449799717
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.31941964285714275,
+			0.040113598491662988
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.5037524545561054,
+			0.03687664834134681
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.76519793049875151,
+			0.032500000000000029
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.99519793046865002,
+			0.05889619269594417
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			1.0814396936525164,
+			-0.12360642081014378
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			1.1184698123633285,
+			-0.31736908024404248
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			1.1113923109524202,
+			-0.37390166708938166
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.66392702193694553,
+			-0.20989720430912814
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.46377956621556077,
+			-0.19312335165865308
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.19771603733458165,
+			-0.24134247710708945
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.075197933633235708,
+			-0.19172744798743699
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			-0.16376005521890191,
+			-0.19940506779633993
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			-0.36137036317987503,
+			-0.38682377363244697
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			-0.13951207925054548,
+			-0.43891376694908496
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.04597752545303551,
+			-0.43078125
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.25838272919478966,
+			-0.47134247710708943
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.45429597616606043,
+			-0.44969984670987345
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.6542959761660605,
+			-0.46375000000000005
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.85168157809206768,
+			-0.51860695541266244
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			1.0516815780920676,
+			-0.51894835757456714
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			-0.19927259051879462,
+			0.37790124772059819
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.037787003178629125,
+			0.38865752289291045
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.26778700317862886,
+			0.36335219698332588
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.49778700317862856,
+			0.34814794921874997
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.78282636307541809,
+			0.43135722194041121
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.96586543511199974,
+			0.40433239831750578
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			1.0863258295330431,
+			0.17389619269594417
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.88632585892735438,
+			0.13680669903712997
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.68704543738191526,
+			0.085491722766170758
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.36503473873761855,
+			0.053193810413543548
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.032857770423521226,
+			0.11669948411927809
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.010323231219281026,
+			0.15054493747869135
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			-0.21967676878071896,
+			0.14790124772059832
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			-0.37797958771742141,
+			-0.052098752279401694
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			-0.1783004700852214,
+			-0.14220396888299114
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.056193041352023985,
+			-0.08458233366719109
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.30519793256668476,
+			-0.096647803016673944
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.53519793152630757,
+			-0.10458272760337251
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.68379367817285641,
+			-0.1489067629437858
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.99519793041869087,
+			-0.058901667089382242
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			1.0814432708347732,
+			-0.25890166708938167
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.8814315267501267,
+			-0.31718000691603676
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.51760349074783374,
+			-0.4398972043091281
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.046064608959756365,
+			-0.39019863227989721
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.046110305864078507,
+			-0.36019863227989724
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.016064608959756393,
+			-0.36019863227989729
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			-0.067339206108034316,
+			-0.36019863227989729
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			-0.35480206584781598,
+			-0.31657753389816989
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			-0.084272590518794627,
+			0.41480136772010257
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.15278700317862912,
+			0.4736575228929103
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.38278700317862879,
+			0.3981938104135434
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.61278700317862844,
+			0.41424281639786709
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			1.1713258295330431,
+			0.28933239831750573
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.97132582953304336,
+			0.28154768495034299
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.77132582953304341,
+			0.21424281639786708
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.57132582953304345,
+			0.1660932370562142
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.37132582953304349,
+			0.16819381041354353
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.17132582953304354,
+			0.073657522892910388
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.12532323121928096,
+			0.2736575228929104
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			-0.10467676878071897,
+			0.18480136772010258
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			-0.26297958771742147,
+			-0.027203968882991154
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			-0.062979587717421459,
+			-0.04519863227989733
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.19019793292220177,
+			-0.12634247710708957
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.42019793187309989,
+			-0.078123351658653181
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.65019793152630756,
+			-0.0339067629437858
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.88019793041869088,
+			0.014242816397867127
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.96643969365251625,
+			-0.18575718360213289
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.99639231095242009,
+			-0.38575718360213285
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.76643152675012671,
+			-0.34249999999999997
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.56652004024658487,
+			-0.32489720430912816
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.36652004024658491,
+			-0.32634247713400605
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			0.16657426682079951,
+			-0.35634247710708944
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			-0.039802065916932666,
+			-0.24519863227989733
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
+		"velocity" : 
+		[
+			0.0,
+			0.0
+		]
+	},
+	{
+		"density" : 1.0,
+		"dynamic friction" : 0.55000000000000004,
+		"is selected?" : false,
+		"is static?" : false,
+		"position" : 
+		[
+			-0.23980206591693268,
+			-0.32391376694908497
+		],
+		"restitution" : 0.5,
+		"rotation" : 0.0,
+		"rotational velocity" : 0.0,
+		"shape type" : "Rectangle",
+		"size" : 
+		[
+			0.029999999999999971,
+			0.029999999999999971
+		],
+		"static friction" : 0.69999999999999996,
 		"velocity" : 
 		[
 			0.0,

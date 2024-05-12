@@ -1,6 +1,9 @@
 #include "../header/header.h"
 
-//functions and special structure for handling collisions
+//functions for handling collisions and Collisions struct constructors
+
+//Collisions list
+std::vector<Collisions> Collisions::contacts;
 
 void Shapes::handle_collisions(){
 

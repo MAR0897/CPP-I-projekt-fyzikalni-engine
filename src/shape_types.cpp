@@ -1,7 +1,6 @@
 #include "../header/header.h"
 
-
-//Shape types===========================================================================================
+//Geometric objects constructors
 
 Properties::Properties(const double& m, const double& den,
             const Vec& position, const double& rotation, 
@@ -87,7 +86,7 @@ Circle::Circle(const Vec& position, const double& radius, const double& den, con
             const Vec& velocity, const double& rv, const double& rest, const double& sf, const double& df,
             const bool& is_static, const bool& is_selected) :
                 rad(radius),
-                Properties{PI*radius*radius*den, den, position, rotation, velocity, rv, rest, sf, df, is_static, is_selected}//mass based on area and density
+                Properties{physics::PI*radius*radius*den, den, position, rotation, velocity, rv, rest, sf, df, is_static, is_selected}//mass based on area and density
     {
         box = Shapes::create_AABB(*this);
         rot_inertia = 0.5*mass*rad*rad;
@@ -98,7 +97,7 @@ Circle::Circle(Vec&& position, const double&& radius, double&& den, double&& rot
             Vec&& velocity, double&& rv, const double& rest, const double& sf, const double& df,
             bool&& is_static, bool&& is_selected) :
                 rad(radius),
-                Properties{PI*radius*radius*den, std::move(den), std::move(position), std::move(rotation), std::move(velocity), std::move(rv),
+                Properties{physics::PI*radius*radius*den, std::move(den), std::move(position), std::move(rotation), std::move(velocity), std::move(rv),
                 std::move(rest), std::move(sf), std::move(df), std::move(is_static), std::move(is_selected)}//mass based on area and density
     {
         box = Shapes::create_AABB(*this);

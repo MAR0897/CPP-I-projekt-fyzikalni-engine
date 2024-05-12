@@ -1,6 +1,6 @@
 #include "../header/header.h"
 
-//loading from and into JSON file for simple object saving
+//loading from and into JSON file for simple simulation saving
 
 void Shapes::load_to_json() {
 
@@ -9,7 +9,6 @@ void Shapes::load_to_json() {
     std::cin>>filename;
     
     load_to_json(filename);
-
 }
 
 void Shapes::load_from_json() {
@@ -19,7 +18,6 @@ void Shapes::load_from_json() {
     std::cin>>filename;
 
     load_from_json(filename);
-
 }
 
 
@@ -55,10 +53,13 @@ void Shapes::load_to_json(const std::string& filename) {
         root.append(p);
     }
 
-    std::ofstream output_file;
-    output_file.open(filename);
-    output_file << root;
-    std::cout<<"Shapes loaded to "<<filename<<std::endl;
+    std::ofstream output_file(filename);
+    if (output_file.is_open()) {
+        output_file << root;
+        std::cout<<"Shapes loaded to "<<filename<<std::endl;
+    }
+    else std::cout<<"Error in loading savestate to a file, nothing was done."<<std::endl;
+    
 }
 
 void Shapes::load_from_json(const std::string& filename) {
@@ -66,7 +67,7 @@ void Shapes::load_from_json(const std::string& filename) {
     std::ifstream input_file(filename);
     if (input_file.is_open()) {
         
-        std::cout<<"Loading shapes to "<<filename<<std::endl;
+        std::cout<<"Loading shapes from "<<filename<<std::endl;
 
         shapes.clear(); //delete all present shapes
         Json::Value root(Json::arrayValue);
@@ -123,7 +124,7 @@ void Shapes::load_from_json(const std::string& filename) {
             if (p["is static?"].asBool() and shapes.size()>0) toggle_static(shapes[shapes.size()-1]);
         }
 
-        std::cout<<"Savestate from "<<filename<<" successfully loaded to screen"<<std::endl;
+        std::cout<<"Savestate from "<<filename<<" successfully loaded on the screen"<<std::endl;
     }
 
     else std::cout<<filename<<" could not be opened."<<std::endl;

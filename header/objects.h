@@ -2,14 +2,7 @@
 
 #include "vec2D.h"
 
-
 //Objects - Axis aligned boundary box, Geometrical objects (Rectangle, Triangle, Circle)
-
-
-//=============================================================================================================================================
-//Variadic templates for easy std::variant access to different types of geometric shapes
-template<class... Ts> struct overloaded : Ts... { using Ts::operator()...; };
-template<class... Ts> overloaded(Ts...) -> overloaded<Ts...>;
 
 //=============================================================================================================================================
 //Axis-aligned bounding box (box around points of the shapes that have min and max value in relation to x and y axis)

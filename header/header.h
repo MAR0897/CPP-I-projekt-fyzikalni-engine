@@ -9,40 +9,48 @@
 #include "collisions.h"
 
 
-const double PI = 3.1415926535;
-//Window sizes
-const int WIDTH = 1280;
-const int HEIGHT = 720;
-
-//screen transform constant, multiply y axis with this to get symetrical things
-/*  IMPORTANT: the whole program works with scaled coordinates (due to window width not necessarily being the same as window height),
-    only on the input (mouse coords) and output (the shapes you can see) the coordinates are scaled to "normal vision" (mainly or only the shape sizes are a problem)
-    (kdo to sakra vymyslel (ale treba je to vlastne dobre, nevim))
-*/
-const double ST = static_cast<double>(WIDTH)/static_cast<double>(HEIGHT); 
-
-//Ground position
-const float GROUND = -0.7f;
-const double STATIC_SHAPES_OUTLINE = 0.01;
-
-
 namespace physics {
 
+    const double PI = 3.1415926535;
+
+    //Number of inner iterations for a physics step function for better physics accuracy
+    extern int iterations;
+    
+    //Gravity toggler
     extern bool gravity;
 
+    //One physics calculation frame
     void step(const double& delta, const int& iterations);
+
+    //Cap the number of iterations to keep the simulation accurate when low number of shapes and fast enough for high number of shapes
+    void cap_iterations();
 }
 
 //Screen management
 namespace window {
 
+    //Window sizes
+    const int WIDTH = 1280;
+    const int HEIGHT = 720;
+
+    //Ground position
+    const float GROUND = -0.7f;
+    const double STATIC_SHAPES_OUTLINE = 0.01;
+
+    //screen transform constant, multiply y axis with this to get symetrical things
+    /*  IMPORTANT: the whole program works with scaled coordinates (due to window width not necessarily being the same as window height),
+        only on the input (mouse coords) and output (the shapes you can see) the coordinates are scaled to "normal vision" (mainly or only the shape sizes are a problem)
+    */
+    const double ST = static_cast<double>(WIDTH)/static_cast<double>(HEIGHT); 
+
+    //draws the background color and texts
     void draw_background();
 
     //convert coords from pixels to screen proportion (-1.0 to 1.0 on both x and y)
     Vec get_mouse_coords(GLFWwindow* window);
 
-    //function for text rendering
-    void render_text(double&& x, double&& y, void *font, std::string&& str);
+    //inner function for text rendering
+    void render_text(const double& x, const double& y, void *font, const std::string& str);
 }
 
 

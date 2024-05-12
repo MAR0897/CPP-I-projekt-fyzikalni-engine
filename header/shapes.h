@@ -6,6 +6,15 @@
 
 using Shape = std::variant<Rectangle, Triangle, Circle>;
 
+//=============================================================================================================================================
+//Variadic templates for easy std::visit access to different types of geometric shapes
+template<class... Ts> struct overloaded : Ts... { using Ts::operator()...; };
+template<class... Ts> overloaded(Ts...) -> overloaded<Ts...>;
+
+
+//=============================================================================================================================================
+//Shapes struct for dealing with shapes movement, intersections, collisions, etc...
+
 struct Shapes{
 
     std::vector<Shape> shapes;  //shapes handle
@@ -175,5 +184,9 @@ struct Shapes{
             static void project_circle(const Circle& c, const Vec& axis, double& max, double& min);
 };
 
-//shape handle representing all the shapes on the screen
-extern Shapes sh;       //user placed shape handles
+//shape handles representing all the shapes on the screen
+namespace physics {
+
+    extern Shapes sh;       //user placed shapes handle
+    //and possibly others, for non-interacting background "decor" shapes
+}

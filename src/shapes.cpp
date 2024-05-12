@@ -23,7 +23,7 @@ void Shapes::delete_selected(){
 void Shapes::delete_out_of_screen() {
     shapes.erase(std::remove_if(shapes.begin(), shapes.end(), [](const Shape& shape) {
         AABB aabb = Shapes::get_AABB(shape);
-        return aabb.max.y < -1.0;
+        return (aabb.max.y < -1.0 and !is_selected(shape));
     }), shapes.end());
 }
 
@@ -108,9 +108,9 @@ void Shapes::m_toggle_static(S& s) {
         s.is_selected = false;
         s.is_static = true;
         if constexpr (std::is_same_v<S, Rectangle> or std::is_same_v<S, Triangle>) {
-            s.size -= STATIC_SHAPES_OUTLINE;
+            s.size -= window::STATIC_SHAPES_OUTLINE;
             s.static_vertices = Shapes::get_vertices(s); 
-            s.size += STATIC_SHAPES_OUTLINE;
+            s.size += window::STATIC_SHAPES_OUTLINE;
         }
         s.vel = Vec{0.0,0.0};
         s.rotvel = 0.0;
@@ -214,7 +214,7 @@ template<typename S>
 void Shapes::change_mass(S& s) {
     if constexpr (std::is_same_v<S, Rectangle>) s.mass = s.size.x*s.size.y*s.density;
     else if constexpr (std::is_same_v<S, Triangle>) s.mass = s.density*s.size*s.size*3.0*std::pow(3, 0.5)/4.0;
-    else if constexpr (std::is_same_v<S, Circle>) s.mass = PI*s.rad*s.rad*s.density;
+    else if constexpr (std::is_same_v<S, Circle>) s.mass = physics::PI*s.rad*s.rad*s.density;
     s.inverse_mass = 1.0/s.mass;
 }
 
